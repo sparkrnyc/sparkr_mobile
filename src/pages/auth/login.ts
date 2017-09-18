@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController } from 'ionic-angular';
-import { User, UserDetails, AuthModuleId, Push, PushToken  } from '@ionic/cloud-angular';
+import { User, UserDetails, AuthModuleId  } from '@ionic/cloud-angular';
 
 import { TabsPage } from '../tabs/tabs';
 
@@ -23,11 +23,10 @@ export class LoginPage {
               public authService: AuthServiceProvider,
               public user: User,
               public alertCtrl: AlertController,
-              public loadingCtrl:LoadingController,
-              public push: Push) {
+              public loadingCtrl:LoadingController) {
 
     if (this.authService.isAuthenticated()) {
-      this.navCtrl.push(TabsPage);
+      //this.navCtrl.push(TabsPage);
     }
 
   }
@@ -54,7 +53,7 @@ export class LoginPage {
     .then( (user) => {
 
           console.log('user successfully logged in');
-
+          /**
           // register app to the Ionic Push service
           // save push token to authenticated user.
           this.push.register().then((t: PushToken) => {
@@ -69,15 +68,16 @@ export class LoginPage {
           this.push.rx.notification().subscribe( (msg) => {
             console.log(msg.title + ': ' + msg.text);
 
-          // handle notifications
-          let alert = this.alertCtrl.create({
-            title:'Push Notification on Register Callback: '+msg.title,
-            subTitle: msg.text,
-            buttons:['OK']
-          });
-          alert.present();
+            // handle notifications
+            let alert = this.alertCtrl.create({
+              title:'Push Notification on Register Callback: '+msg.title,
+              subTitle: msg.text,
+              buttons:['OK']
+            });
+            alert.present();
 
-        });
+          });
+          */
 
         loader.dismissAll();
         this.navCtrl.setRoot(TabsPage);
