@@ -1,0 +1,15 @@
+{
+  "user1List": [
+    {
+      "id" : 1,
+      "email" : "user1_1@email.com",
+      "username" : "user1_1",
+      "profile_image" : "assets/imgs/person1.png",
+      "firstname" : "User1_1",
+      "lastname" : "One1",
+      "city" : "New York",
+      "state" : "NY",
+      "country" : "United States of America"
+    }
+  ]
+}

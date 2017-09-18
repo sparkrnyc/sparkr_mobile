@@ -1,0 +1,41 @@
+<div>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label for="id" stacked>id</ion-label>
+        <ion-input type="text" name="id" [(ngModel)]="user2.id" [disabled]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="email" stacked>email</ion-label>
+        <ion-input type="text" name="email" [(ngModel)]="user2.email" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="username" stacked>username</ion-label>
+        <ion-input type="text" name="username" [(ngModel)]="user2.username" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="firstname" stacked>firstname</ion-label>
+        <ion-input type="text" name="firstname" [(ngModel)]="user2.firstname" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="lastname" stacked>lastname</ion-label>
+        <ion-input type="text" name="lastname" [(ngModel)]="user2.lastname" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="city" stacked>city</ion-label>
+        <ion-input type="text" name="city" [(ngModel)]="user2.city" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="state" stacked>state</ion-label>
+        <ion-input type="text" name="state" [(ngModel)]="user2.state" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="country" stacked>country</ion-label>
+        <ion-input type="text" name="country" [(ngModel)]="user2.country" [disabled]="!edit"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>
+    </div>
+  </form>
+</div>

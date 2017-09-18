@@ -1,0 +1,24 @@
+{
+  "object2List" : [
+    {
+      "id" : 1,
+      "name" : "object2_1",
+      "property1" : 1,
+      "property2" : 2,
+      "property3" : "prop3",
+      "date_created" : "2017-07-15",
+      "startdate" : "2017-06-21",
+      "enddate" : "2017-08-25"
+    },
+    {
+      "id" : 1,
+      "name" : "object2_2",
+      "property1" : 1,
+      "property2" : 2,
+      "property3" : "prop3",
+      "date_created" : "2017-07-15",
+      "startdate" : "2017-06-21",
+      "enddate" : "2017-08-25"
+    }
+  ]
+}

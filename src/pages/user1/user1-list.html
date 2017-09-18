@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My App</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>User1List</h2>
+  <ion-list>
+    <ion-item *ngFor="let user1 of user1List.user1List"
+            (click)="onSelect(user1)"
+            [class.selected]="user1 === selectedUser1">
+        <ion-avatar item-start>
+          <img src="{{ user1.profile_image }}">
+        </ion-avatar>
+        <h3>{{ user1.firstname }} {{ user1.lastname }}</h3>
+        <p>{{ user1.city }}, {{ user1.state }}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

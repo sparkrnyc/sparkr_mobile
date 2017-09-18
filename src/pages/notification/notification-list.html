@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My App</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>NotificationList</h2>
+  <ion-list>
+    <ion-item *ngFor="let notification of notificationList.notificationList"
+            (click)="onSelect(notification)"
+            [class.selected]="notification === selectedNotification">
+        <h3>{{ notification.id }}</h3>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,14 +1,22 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
+
+import { Push } from '@ionic/cloud-angular';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  title: string = null;
+
+  constructor(public navCtrl: NavController,
+              public alertCtrl: AlertController,
+              public push: Push) {
+
+      this.title = "Home";
 
   }
-
 }

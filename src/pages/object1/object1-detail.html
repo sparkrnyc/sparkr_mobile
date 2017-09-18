@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My App</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>Object1Detail</h2>
+<object1-detail-form [object1]="selectedObject1"></object1-detail-form>
+</ion-content>
