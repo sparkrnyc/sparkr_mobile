@@ -1,5 +1,13 @@
 # SPARKR
 
+## Prerequisites
+
+* npm and Node
+* Ionic and Cordova
+* Android Studio
+* Android Virtual Device API 25
+* XCode
+
 ## Running Sparkr
 
 ### iOS
