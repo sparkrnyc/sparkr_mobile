@@ -5,16 +5,16 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class DataServiceProvider {
 
-  public object1ListApiHost: string = './assets/data/object1list.json';
+  public feedListApiHost: string = './assets/data/feedlist.json';
   public object2ListApiHost: string = './assets/data/object2list.json';
-  public user1ListApiHost: string = './assets/data/user1list.json';
-  public user2ListApiHost: string = './assets/data/user2list.json';
+  public teamListApiHost: string = './assets/data/teamlist.json';
+  public projectListApiHost: string = './assets/data/projectlist.json';
   public notificationListApiHost: string = './assets/data/notificationlist.json';
 
   constructor(private http: Http) { }
 
-  public getUser1List(): Promise<Object> {
-    return this.http.get(this.user1ListApiHost)
+  public getTeamList(): Promise<Object> {
+    return this.http.get(this.teamListApiHost)
       .toPromise()
       .then((response) => {
         return response.json();
@@ -24,8 +24,8 @@ export class DataServiceProvider {
       });
   }
 
-  public getUser2List(): Promise<Object> {
-    return this.http.get(this.user2ListApiHost)
+  public getProjectList(): Promise<Object> {
+    return this.http.get(this.projectListApiHost)
       .toPromise()
       .then((response) => {
         return response.json();
@@ -35,8 +35,8 @@ export class DataServiceProvider {
       });
   }
 
-  public getObject1List(): Promise<Object> {
-    return this.http.get(this.object1ListApiHost)
+  public getFeedList(): Promise<Object> {
+    return this.http.get(this.feedListApiHost)
       .toPromise()
       .then((response) => {
         return response.json();

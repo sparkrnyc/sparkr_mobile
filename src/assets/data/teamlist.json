@@ -1,0 +1,15 @@
+{
+  "teamList": [
+    {
+      "id" : 1,
+      "email" : "team1@email.com",
+      "username" : "team1_1",
+      "profile_image" : "assets/imgs/person1.png",
+      "firstname" : "Team1",
+      "lastname" : "One1",
+      "city" : "New York",
+      "state" : "NY",
+      "country" : "United States of America"
+    }
+  ]
+}

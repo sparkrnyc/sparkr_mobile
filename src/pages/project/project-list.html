@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Sparkr</ion-title>
+    <ion-buttons right>
+      <button ion-button icon-only (click)="openModal()">
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>ProjectList</h2>
+  <ion-list>
+    <ion-item *ngFor="let project of projectList.projectList"
+            (click)="onSelect(project)"
+            [class.selected]="project === selectedProject">
+        <ion-avatar item-start>
+          <img src="{{ project.profile_image }}">
+        </ion-avatar>
+        <h3>{{ project.firstname }} {{ project.lastname }}</h3>
+        <p>{{ project.city }}, {{ project.state }}</p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
