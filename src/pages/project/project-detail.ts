@@ -8,11 +8,16 @@ import { ProjectModel } from '../../components/project-model';
 })
 export class ProjectDetailPage {
   selectedProject: ProjectModel = null;
+  edit: boolean = false;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
     this.selectedProject = navParams.get("project");
     if(this.selectedProject==null){
       this.selectedProject = new ProjectModel(null, null, null, null, null, null, null);
+      this.edit = true;
+    }else{
+      this.edit = false;
     }
   }
   ionViewDidLoad() {

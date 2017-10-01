@@ -7,9 +7,13 @@ import { ProfileModel } from '../profile-model';
 })
 export class ProfileDetailFormComponent {
   @Input() profile: ProfileModel = null;
-  edit: boolean = null;
+  @Input() edit: boolean = null;
   constructor() {
-    this.edit = false;
+    if(this.profile==null || this.profile.id==null){
+      // create new profile
+    } else {
+
+    } 
   }
   onClicked(toggle){
     if(this.edit==true){

@@ -10,6 +10,9 @@
 </ion-header>
 
 <ion-content padding>
+  <ion-fab top right >
+    <button ion-fab (click)="addClicked()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
   <h2>TeamList</h2>
   <ion-list>
     <ion-item *ngFor="let team of teamList.teamList"

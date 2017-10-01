@@ -6,9 +6,13 @@ import { TeamModel } from '../team-model';
 })
 export class TeamDetailFormComponent {
   @Input() team: TeamModel = null;
-  edit: boolean = null;
+  @Input() edit: boolean = null;
   constructor() {
-    this.edit = false;
+    if(this.team==null || this.team.id==null){
+      // create new project
+    } else {
+
+    } 
   }
   onClicked(toggle){
     if(this.edit==true){

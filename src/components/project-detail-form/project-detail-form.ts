@@ -6,13 +6,12 @@ import { ProjectModel } from '../project-model';
 })
 export class ProjectDetailFormComponent {
   @Input() project: ProjectModel = null;
-  edit: boolean = null;
+  @Input() edit: boolean = null;
   constructor() {
     if(this.project==null || this.project.id==null){
       // create new project
-      this.edit = true;
     } else {
-      this.edit = false;
+
     } 
   }
   onClicked(toggle){

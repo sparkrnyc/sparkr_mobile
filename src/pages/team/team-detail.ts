@@ -9,9 +9,17 @@ import { TeamModel } from '../../components/team-model';
 })
 export class TeamDetailPage {
   selectedTeam: TeamModel = null;
+  edit: boolean = false;
+  
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
     this.selectedTeam = navParams.get("team");
+    if(this.selectedTeam==null){
+      this.selectedTeam = new TeamModel(null, null, null, null, null);
+      this.edit = true;
+    }else{
+      this.edit = false;
+    }
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad TeamDetailPage');
