@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 export class DataServiceProvider {
 
   public feedListApiHost: string = './assets/data/feedlist.json';
-  public object2ListApiHost: string = './assets/data/object2list.json';
+  public profileListApiHost: string = './assets/data/profilelist.json';
   public teamListApiHost: string = './assets/data/teamlist.json';
   public projectListApiHost: string = './assets/data/projectlist.json';
   public notificationListApiHost: string = './assets/data/notificationlist.json';
@@ -46,8 +46,8 @@ export class DataServiceProvider {
       });
   }
 
-  public getObject2List(): Promise<Object> {
-    return this.http.get(this.object2ListApiHost)
+  public getProfileList(): Promise<Object> {
+    return this.http.get(this.profileListApiHost)
       .toPromise()
       .then((response) => {
         return response.json();

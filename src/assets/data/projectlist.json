@@ -2,14 +2,10 @@
   "projectList": [
     {
       "id" : 1,
-      "email" : "project1@email.com",
-      "username" : "project1",
-      "profile_image" : "assets/imgs/person1.png",
-      "firstname" : "Project1",
-      "lastname" : "P1",
-      "city" : "Austin",
-      "state" : "TX",
-      "country" : "United States of America"
+      "title" : "Hacking App",
+      "description" : "Some kind of sample app that we want to make at the upcoming CUNY Hackathon. Please help!",
+      "url": "",
+      "prototype": ""
     }
   ]
 }

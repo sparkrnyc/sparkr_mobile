@@ -1,0 +1,65 @@
+<div>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label for="id" stacked>id</ion-label>
+        <ion-input type="text" name="id" [(ngModel)]="profile.id" [disabled]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="username" stacked>username</ion-label>
+        <ion-input type="text" name="username" [(ngModel)]="profile.username" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="role" stacked>role</ion-label>
+        <ion-input type="text" name="role" [(ngModel)]="profile.role" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="college" stacked>college</ion-label>
+        <ion-input type="text" name="college" [(ngModel)]="profile.college" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="degree" stacked>degree</ion-label>
+        <ion-input type="text" name="degree" [(ngModel)]="profile.degree" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="bio" stacked>bio</ion-label>
+        <ion-input type="text" name="bio" [(ngModel)]="profile.bio" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="email" stacked>email</ion-label>
+        <ion-input type="text" name="email" [(ngModel)]="profile.email" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="linkedin" stacked>linkedin</ion-label>
+        <ion-input type="text" name="linkedin" [(ngModel)]="profile.linkedin" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="firstname" stacked>firstname</ion-label>
+        <ion-input type="text" name="firstname" [(ngModel)]="profile.firstname" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="lastname" stacked>lastname</ion-label>
+        <ion-input type="text" name="lastname" [(ngModel)]="profile.lastname" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="city" stacked>city</ion-label>
+        <ion-input type="text" name="city" [(ngModel)]="profile.city" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="state" stacked>state</ion-label>
+        <ion-input type="text" name="state" [(ngModel)]="profile.state" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="country" stacked>country</ion-label>
+        <ion-input type="text" name="country" [(ngModel)]="profile.country" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="company" stacked>company</ion-label>
+        <ion-input type="text" name="company" [(ngModel)]="profile.company" [disabled]="!edit"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>
+    </div>
+  </form>
+</div>

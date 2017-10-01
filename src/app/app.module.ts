@@ -15,7 +15,8 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/auth/login';
 import { SignupPage } from '../pages/auth/signup';
 import { AboutPage } from '../pages/about/about';
-import { ProfilePage } from '../pages/profile/profile';
+import { ProfileListPage } from '../pages/profile/profile-list';
+import { ProfileDetailPage } from '../pages/profile/profile-detail';
 import { FeedListPage } from '../pages/feed/feed-list';
 import { FeedDetailPage } from '../pages/feed/feed-detail';
 import { TeamListPage } from '../pages/team/team-list';
@@ -34,6 +35,7 @@ import { TeamDetailFormComponent } from '../components/team-detail-form/team-det
 import { ProjectDetailFormComponent } from '../components/project-detail-form/project-detail-form';
 import { FeedDetailFormComponent } from '../components/feed-detail-form/feed-detail-form';
 import { NotificationDetailFormComponent } from '../components/notification-detail-form/notification-detail-form';
+import { ProfileDetailFormComponent } from '../components/profile-detail-form/profile-detail-form';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -48,7 +50,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     SignupPage,
     AboutPage,
-    ProfilePage,
+    ProfileListPage,
+    ProfileDetailPage,
     FeedListPage,
     FeedDetailPage,
     TeamListPage,
@@ -61,7 +64,8 @@ const cloudSettings: CloudSettings = {
     TeamDetailFormComponent,
     ProjectDetailFormComponent,
     FeedDetailFormComponent,
-    NotificationDetailFormComponent
+    NotificationDetailFormComponent,
+    ProfileDetailFormComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,8 @@ const cloudSettings: CloudSettings = {
     LoginPage,
     SignupPage,
     AboutPage,
-    ProfilePage,
+    ProfileListPage,
+    ProfileDetailPage,
     FeedListPage,
     FeedDetailPage,
     TeamListPage,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TeamModel } from '../../components/team-model';
+
 @IonicPage()
 @Component({
   selector: 'page-team-detail',

@@ -2,14 +2,15 @@
   "teamList": [
     {
       "id" : 1,
-      "email" : "team1@email.com",
-      "username" : "team1_1",
-      "profile_image" : "assets/imgs/person1.png",
-      "firstname" : "Team1",
-      "lastname" : "One1",
-      "city" : "New York",
-      "state" : "NY",
-      "country" : "United States of America"
+      "name" : "d0pe hAckers_01",
+      "thumbnail": "assets/imgs/team_icon_1.png",
+      "description" : "Some kind of sample team that intended to work at the upcoming CUNY Hackathon. Super talented team that does..uh..hacking.",
+      "members": [
+        1,2
+      ],
+      "projects": [
+        1
+      ]
     }
   ]
 }

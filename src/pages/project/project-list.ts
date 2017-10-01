@@ -23,6 +23,9 @@ export class ProjectListPage {
   onSelect(item) {
     this.navCtrl.push(ProjectDetailPage, { project: item });
   }
+  addClicked(){
+    this.navCtrl.push(ProjectDetailPage, { project: null });    
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectListPage');
   }

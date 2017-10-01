@@ -16,10 +16,10 @@
             (click)="onSelect(team)"
             [class.selected]="team === selectedTeam">
         <ion-avatar item-start>
-          <img src="{{ team.profile_image }}">
+          <img src="{{ team.thumbnail }}">
         </ion-avatar>
-        <h3>{{ team.firstname }} {{ team.lastname }}</h3>
-        <p>{{ team.city }}, {{ team.state }}</p>
+        <h3>{{ team.name }}</h3>
+        <p>{{ team.description }}</p>
     </ion-item>
   </ion-list>
 </ion-content>

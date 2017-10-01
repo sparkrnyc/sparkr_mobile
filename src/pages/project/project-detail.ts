@@ -11,6 +11,9 @@ export class ProjectDetailPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
     this.selectedProject = navParams.get("project");
+    if(this.selectedProject==null){
+      this.selectedProject = new ProjectModel(null, null, null, null, null, null, null);
+    }
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProjectDetailPage');

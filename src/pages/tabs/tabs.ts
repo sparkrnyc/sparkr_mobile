@@ -5,7 +5,8 @@ import { Platform } from 'ionic-angular';
 import { FeedListPage } from '../feed/feed-list';
 import { TeamListPage } from '../team/team-list';
 import { ProjectListPage } from '../project/project-list';
-import { ProfilePage } from '../profile/profile';
+import { ProfileListPage } from '../profile/profile-list';
+import { ProfileDetailPage } from '../profile/profile-detail';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -19,7 +20,8 @@ export class TabsPage {
   tab1Root = FeedListPage;//MySparkr
   tab2Root = TeamListPage;//Teams
   tab3Root = ProjectListPage;//Projects
-  tab4Root = ProfilePage;//Profile
+  tab4Root = ProfileListPage;//Profiles
+  tab5Root = ProfileDetailPage;//Profile
 
   constructor(public platform: Platform) {
     this.isAndroid = this.platform.is('android');

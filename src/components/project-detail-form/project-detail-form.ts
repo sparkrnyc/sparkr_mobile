@@ -8,10 +8,19 @@ export class ProjectDetailFormComponent {
   @Input() project: ProjectModel = null;
   edit: boolean = null;
   constructor() {
-    this.edit = false;
+    if(this.project==null || this.project.id==null){
+      // create new project
+      this.edit = true;
+    } else {
+      this.edit = false;
+    } 
   }
   onClicked(toggle){
     if(this.edit==true){
+      // save was clicked
+      
+    }else{
+      // edit was clicked
     }
     this.edit = toggle;
   }
