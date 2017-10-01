@@ -8,11 +8,12 @@ Date: TBD
 
 Description: First prototype release
 
-* Authentication 
+* Auth Service 
     * Ionic Cloud Auth
     * Instagram
 * Data Service
 * Use Data Models, Forms, List and Detail components 
+* Test Data read from './assets/data/'
 
 # Installation
 
