@@ -1,4 +1,20 @@
-# SPARKR
+# About SPARKR
+
+#Release Logs 
+
+## 0.1.0
+
+Date: TBD
+
+Description: First prototype release
+
+* Authentication 
+    * Ionic Cloud Auth
+    * Instagram
+* Data Service
+* Use Data Models, Forms, List and Detail components 
+
+# Installation
 
 ## Prerequisites
 
@@ -7,6 +23,13 @@
 * Android Studio
 * Android Virtual Device API 25
 * XCode
+
+## Download 
+
+```bash
+$ git clone https://github.com/sparkrnyc/sparkr_mobile.git
+$ cd sparkr_mobile
+```
 
 ## Running Sparkr
 
