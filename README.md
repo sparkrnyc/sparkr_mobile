@@ -14,6 +14,12 @@ Description: First prototype release
 * Data Service
 * Use Data Models, Forms, List and Detail components 
 * Test Data read from './assets/data/'
+* Tabs navigation:
+    * MySparkr notifications/feed
+    * Teams
+    * Projects
+    * Members
+    * Profile
 
 # Installation
 
