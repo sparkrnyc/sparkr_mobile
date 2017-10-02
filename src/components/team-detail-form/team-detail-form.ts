@@ -14,6 +14,12 @@ export class TeamDetailFormComponent {
 
     } 
   }
+  addMemberClicked(teamId){
+    console.log("team.id: ", teamId);
+  }
+  addProjectClicked(teamId){
+    console.log("team.id: ", teamId);
+  }
   onClicked(toggle){
     if(this.edit==true){
     }

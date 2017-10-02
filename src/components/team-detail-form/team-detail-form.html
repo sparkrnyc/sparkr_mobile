@@ -16,10 +16,16 @@
       <ion-item>
         <ion-label for="members" stacked>members</ion-label>
         <ion-input type="text" name="members" [(ngModel)]="team.members" [disabled]="!edit"></ion-input>
+        <button ion-button icon-only clear item-right (click)="addMemberClicked(team.id)">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
       </ion-item>
       <ion-item>
         <ion-label for="projects" stacked>projects</ion-label>
         <ion-input type="text" name="projects" [(ngModel)]="team.projects" [disabled]="!edit"></ion-input>
+        <button ion-button icon-only clear item-right (click)="addProjectClicked(team.id)">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>
       </ion-item>
     </ion-list>
     <div padding>

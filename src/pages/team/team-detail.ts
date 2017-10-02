@@ -22,6 +22,6 @@ export class TeamDetailPage {
     }
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad TeamDetailPage');
+    
   }
 }
