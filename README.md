@@ -19,18 +19,19 @@ Description: First prototype release
     * Projects
     * Members
     * Profile
-* package.json:
-    * Ionic, v3.12.0
-    * Ionic-Angular, v3.7.1
-    * Angular, v4.4.3
-* [Angular in-memory-web-api](https://github.com/angular/in-memory-web-api), v0.4.6
+* [Angular in-memory-web-api](https://github.com/angular/in-memory-web-api)
 
 # Installation
 
 ## Prerequisites
 
 * npm and Node
-* Ionic and Cordova
+* Ionic, Cordova, Angular
+    * package.json:
+    * Ionic, v3.12.0
+    * Ionic-Angular, v3.7.1
+    * Angular, v4.4.3
+    * [Angular in-memory-web-api](https://github.com/angular/in-memory-web-api), v0.4.6
 * Android Studio
 * Android Virtual Device API 25
 * XCode
