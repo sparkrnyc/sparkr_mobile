@@ -15,7 +15,7 @@
   </ion-fab>
   <h2>ProjectList</h2>
   <ion-list>
-    <ion-item *ngFor="let project of projectList.projectList"
+    <ion-item *ngFor="let project of projectList.data"
             (click)="onSelect(project)"
             [class.selected]="project === selectedProject">
         <ion-avatar item-start>

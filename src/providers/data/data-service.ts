@@ -1,65 +1,77 @@
 import { Injectable } from '@angular/core';
-import { Http }       from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import { ProfileModel } from '../../components/profile-model';
 
 @Injectable()
 export class DataServiceProvider {
 
-  public feedListApiHost: string = './assets/data/feedlist.json';
-  public profileListApiHost: string = './assets/data/profilelist.json';
-  public teamListApiHost: string = './assets/data/teamlist.json';
-  public projectListApiHost: string = './assets/data/projectlist.json';
-  public notificationListApiHost: string = './assets/data/notificationlist.json';
+  public API_FEED: string = 'api/feed';
+  public API_PROFILE: string = 'api/profile';
+  public API_TEAM: string = 'api/team';
+  public API_PROJECT: string = 'api/project';
+  public API_NOTIFICATION: string = 'api/notification';
 
   public profile: ProfileModel = null;
   
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   public getTeamList(): Promise<Object> {
-    return this.http.get(this.teamListApiHost)
-      .toPromise()
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
+    return new Promise(resolve => {
+      this.http.get(this.API_TEAM)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
         console.log(err);
       });
+    });
   }
 
   public getProjectList(): Promise<Object> {
-    return this.http.get(this.projectListApiHost)
-      .toPromise()
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
+    return new Promise(resolve => {
+      this.http.get(this.API_PROJECT)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
         console.log(err);
       });
+    });
+  }
+
+  public getProjects(): Promise<Object> {
+    return new Promise(resolve => {
+      this.http.get(this.API_PROJECT)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
+        console.log(err);
+      });
+    });
   }
 
   public getFeedList(): Promise<Object> {
-    return this.http.get(this.feedListApiHost)
-      .toPromise()
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return new Promise(resolve => {
+      this.http.get(this.API_FEED).subscribe( 
+        response => {
+          resolve( response );
+        }, 
+        err => {
+          console.log(err);
+        }
+      );
+    });
   }
 
   public getProfileList(): Promise<Object> {
-    return this.http.get(this.profileListApiHost)
-      .toPromise()
-      .then((response) => {
-        return response.json();
-        
-      })
-      .catch((err) => {
+    return new Promise(resolve => {
+      this.http.get(this.API_PROFILE)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
         console.log(err);
       });
+    });
   }
 
   public getProfiles(ids: number[]): Promise<Object> {
@@ -68,32 +80,32 @@ export class DataServiceProvider {
   }
 
   public getProfile(id: number): Promise<Object> {
-    return this.http.get(this.profileListApiHost)
-      .toPromise()
-      .then((response) => {
-        let profiles = response.json().profileList;
+    return new Promise(resolve => {
+      this.http.get(this.API_PROFILE)
+      .subscribe( response => {       
+        let profiles = response['data'];
         let profile = null;
         profiles.forEach(p => {
           if(p.id == id){
             profile = p;
           }
         });
-        return profile;
-      })
-      .catch((err) => {
+        resolve(profile);
+      }, err => {
         console.log(err);
       });
+    });
   }
 
   public getNotificationList(): Promise<Object> {
-    return this.http.get(this.notificationListApiHost)
-      .toPromise()
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => {
+    return new Promise(resolve => {
+      this.http.get(this.API_NOTIFICATION)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
         console.log(err);
       });
+    });
   }
 
 }

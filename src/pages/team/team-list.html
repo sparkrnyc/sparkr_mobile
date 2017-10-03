@@ -15,7 +15,7 @@
   </ion-fab>
   <h2>TeamList</h2>
   <ion-list>
-    <ion-item *ngFor="let team of teamList.teamList"
+    <ion-item *ngFor="let team of teamList.data"
             (click)="onSelect(team)"
             [class.selected]="team === selectedTeam">
         <ion-avatar item-start>

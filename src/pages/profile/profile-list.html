@@ -12,7 +12,7 @@
 <ion-content>
   <h2>ProfileList</h2>
   <ion-list>
-    <ion-item *ngFor="let profile of profiles.profileList"
+    <ion-item *ngFor="let profile of profiles.data"
             (click)="onSelect(profile)"
             [class.selected]="profile === selectedProfile">
         <ion-avatar item-start>

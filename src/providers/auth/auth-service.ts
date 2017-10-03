@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 import { AlertController } from 'ionic-angular';
@@ -10,7 +10,7 @@ import { Auth, AuthLoginResult, UserDetails, AuthModuleId, IDetailedError } from
 export class AuthServiceProvider {
 
   constructor(public alertCtrl: AlertController,
-              public http: Http,
+              public http: HttpClient,
               public auth: Auth) {
     //console.log('Hello AuthServiceProvider Provider');
   }

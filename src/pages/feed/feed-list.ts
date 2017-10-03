@@ -10,9 +10,10 @@ export class FeedListPage {
   feedList: any = null;
   constructor(public navCtrl: NavController,
               public dataService: DataServiceProvider) {
+
     this.feedList = this.dataService.getFeedList()
-    .then( (feedList) => {
-      this.feedList = feedList;
+    .then( (feed) => {  
+      this.feedList = feed;
     },
     (error) => {
       console.log("error: "+ error);

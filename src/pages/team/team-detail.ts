@@ -16,8 +16,10 @@ export class TeamDetailPage {
               public navParams: NavParams,
               public dataservice: DataServiceProvider
             ) {
-    this.selectedTeam = navParams.get("team");
 
+    this.selectedTeam = navParams.get("team");
+    console.log("this.selectedTeam.members:", this.selectedTeam.members);
+    
     this.selectedTeam.members.forEach(number=>{
       this.dataservice.getProfile(number)
       .then( (profile) => {

@@ -12,7 +12,7 @@
 <ion-content padding>
   <h2>MySparkr</h2>
   <ion-list>
-    <ion-item *ngFor="let feed of feedList.feedList"
+    <ion-item *ngFor="let feed of feedList.data"
             (click)="onSelect(feed)"
             [class.selected]="feed === selectedFeed">
         <h3>{{ feed.name }}</h3>

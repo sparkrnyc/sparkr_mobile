@@ -11,9 +11,11 @@ export class ProfileListPage {
   profiles: any = null;
   constructor(public navCtrl: NavController,
               public dataService: DataServiceProvider) {
+                
     this.profiles = this.dataService.getProfileList()
     .then( (profiles) => {
       this.profiles = profiles;
+      console.log("profiles:", profiles);
     },
     (error) => {
       console.log("error: "+ error);

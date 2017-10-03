@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,6 +37,10 @@ import { FeedDetailFormComponent } from '../components/feed-detail-form/feed-det
 import { NotificationDetailFormComponent } from '../components/notification-detail-form/notification-detail-form';
 import { ProfileDetailFormComponent } from '../components/profile-detail-form/profile-detail-form';
 
+// InMemoryDbService
+import { InMemoryDbTestProvider } from '../providers/data/in-memory-db-test';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': '2a4f9309'
@@ -69,9 +73,10 @@ const cloudSettings: CloudSettings = {
   ],
   imports: [
     BrowserModule,
-    HttpModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings)
+    CloudModule.forRoot(cloudSettings),
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDbTestProvider)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -98,7 +103,8 @@ const cloudSettings: CloudSettings = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     DataServiceProvider,
-    GlobalServiceProvider
+    GlobalServiceProvider,
+    InMemoryDbTestProvider
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
