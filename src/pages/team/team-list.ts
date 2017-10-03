@@ -8,12 +8,13 @@ import { TeamDetailPage } from './team-detail';
   selector: 'page-team-list',
   templateUrl: 'team-list.html',
 })
+
 export class TeamListPage {
   teamList: Object = null;
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dataService: DataServiceProvider) {
-      this.teamList = this.dataService.getTeamList()
+    this.teamList = this.dataService.getTeamList()
       .then( (teamList) => {
         this.teamList = teamList;
       },

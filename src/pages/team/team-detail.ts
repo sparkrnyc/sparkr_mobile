@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { TeamModel } from '../../components/team-model';
+import { DataServiceProvider } from '../../providers/data/data-service';
 
 @IonicPage()
 @Component({
@@ -12,8 +13,21 @@ export class TeamDetailPage {
   edit: boolean = false;
   
   constructor(public navCtrl: NavController,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              public dataservice: DataServiceProvider
+            ) {
     this.selectedTeam = navParams.get("team");
+
+    this.selectedTeam.members.forEach(number=>{
+      this.dataservice.getProfile(number)
+      .then( (profile) => {
+        console.log("member", profile);
+      },
+      (error) => {
+        console.log("error: "+ error);
+      });
+    });
+
     if(this.selectedTeam==null){
       this.selectedTeam = new TeamModel(null, null, null, null, null);
       this.edit = true;

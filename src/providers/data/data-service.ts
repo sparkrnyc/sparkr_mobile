@@ -73,10 +73,8 @@ export class DataServiceProvider {
       .then((response) => {
         let profiles = response.json().profileList;
         let profile = null;
-        console.log("profiles: ", profiles);
         profiles.forEach(p => {
           if(p.id == id){
-            console.log("matched profile:", p);
             profile = p;
           }
         });
