@@ -13,13 +13,17 @@ Description: First prototype release
     * Instagram
 * Data Service
 * Use Data Models, Forms, List and Detail components 
-* Test Data read from './assets/data/'
 * Tabs navigation:
     * MySparkr notifications/feed
     * Teams
     * Projects
     * Members
     * Profile
+* package.json:
+    * Ionic, v3.12.0
+    * Ionic-Angular, v3.7.1
+    * Angular, v4.4.3
+* [Angular in-memory-web-api](https://github.com/angular/in-memory-web-api), v0.4.6
 
 # Installation
 
