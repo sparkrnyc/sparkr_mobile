@@ -41,7 +41,7 @@ export class LoginPage {
 
     setTimeout(() => {
       loader.dismiss();
-    }, 5000);
+    }, 0);
 
     console.log('process login');
     this.showLogin = true;

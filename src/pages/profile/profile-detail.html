@@ -1,15 +1,72 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Sparkr</ion-title>
+    <ion-title>Profile</ion-title>
     <ion-buttons right>
-      <button ion-button icon-only (click)="openModal()">
-        <ion-icon name="menu"></ion-icon>
+      <button ion-button>
+        Edit
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-
 <ion-content>
-  <h2>ProfileDetail</h2>
-  <profile-detail-form [profile]="selectedProfile"></profile-detail-form>
+  <ion-grid style="padding: 16px">
+    <ion-row>
+      <ion-col text-left col-5>
+        <ion-img width="110" height="110" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"></ion-img>
+      </ion-col>
+      <ion-col>
+        <span style="font-size: 16px; font-weight: bold">{{selectedProfile.username}}</span>
+        <ion-row style="padding-top: 10px">
+          <ion-icon name="ios-navigate-outline"></ion-icon>
+          <span style="padding-left: 8px">{{selectedProfile.college}}</span>
+        </ion-row>
+        <ion-row style="font-size: 25px; padding-top: 37px">
+          <ion-icon name="globe" style="padding-right: 30px"></ion-icon>
+          <ion-icon name="logo-github"></ion-icon>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+    <ion-row style="padding-left: 16px; padding-top: 5px; font-weight: bold">
+      {{selectedProfile.role}}
+    </ion-row>
+  </ion-grid>
+  <ion-row>
+    <ion-col col-6 class="item middle-buttons">
+      <button class="item button-styled left-button" ion-button block outline>
+        <ion-icon name="chatbubbles" style="padding-right: 8px"></ion-icon>
+        Send Message
+      </button>
+    </ion-col>
+    <ion-col col-6 class="item middle-buttons">
+      <button class="item button-styled" ion-button block outline>
+        <ion-icon name="add-circle" style="padding-right: 8px"></ion-icon>
+        Connect
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-grid style="padding: 16px; padding-top: 60px">
+    <ion-row>
+      <ion-col col-11>
+      <div style="color: #969FAA !important; padding-bottom: 10px">TEAM INFO</div>
+      <div style="font-weight: bold !important; font-size: 16px; padding-bottom: 10px">d0pe.hAckers_01</div>
+      <div>
+        Some kind of sample team that is intended to work at the upcoming CUNY Hackathon. Super talented team that does..uh...hacking.
+      </div>
+      </ion-col>
+      <ion-col col-1>
+        <ion-icon name="arrow-dropright" style="padding-top: 55px"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row style="margin-top: 30px">
+      <ion-col col-11>
+      <div style="color: #969FAA !important; padding-bottom: 10px">CONNECTIONS</div>
+      <div>
+        SarahSumtin, JoeFranklin, JohnAustin, and 63 more.
+      </div>
+      </ion-col>
+      <ion-col col-1>
+        <ion-icon name="arrow-dropright" style="margin-top: 25px"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
