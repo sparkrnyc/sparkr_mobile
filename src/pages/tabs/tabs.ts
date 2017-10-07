@@ -19,7 +19,7 @@ export class TabsPage {
 
   tab1Root = FeedListPage;//MySparkr
   tab2Root = TeamListPage;//Teams
-  tab3Root = ProjectListPage;//Projects
+  //tab3Root = ProjectListPage;//Projects
   tab4Root = ProfileListPage;//Profiles
   tab5Root = ProfileDetailPage;//Profile
 

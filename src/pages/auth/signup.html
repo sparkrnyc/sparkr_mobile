@@ -11,7 +11,15 @@
   <div>
 
     <ion-item>
-      <ion-input type="text" placeholder="Name" [(ngModel)]="name"></ion-input>
+      <ion-input type="text" placeholder="Firstname" [(ngModel)]="firstname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Lastname" [(ngModel)]="lastname"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="username"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -21,8 +29,20 @@
     <ion-item>
       <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
     </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="College" [(ngModel)]="college"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Degree" [(ngModel)]="degree"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Role" [(ngModel)]="role"></ion-input>
+    </ion-item>
   </div>
 
-  <button ion-button full (click)="signup()">Signup</button>
+  <button ion-button full (click)="signupClicked()">Signup</button>
 
 </ion-content>

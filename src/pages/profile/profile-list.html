@@ -1,15 +1,10 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Sparkr</ion-title>
-    <ion-buttons right>
-      <button ion-button icon-only (click)="openModal()">
-        <ion-icon name="menu"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <h2>ProfileList</h2>
   <ion-list>
     <ion-item *ngFor="let profile of profiles.data"

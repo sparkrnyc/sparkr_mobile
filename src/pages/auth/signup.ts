@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { ViewController, NavController } from 'ionic-angular';
 import { Auth, User } from '@ionic/cloud-angular';
 
 @Component({
@@ -15,11 +15,14 @@ export class SignupPage {
   name:string = '';
 
   constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public auth: Auth,
               public user: User) {}
 
-	signup() {
-		console.log('process signup');
-	}
+  signupClicked() {
+    console.log('process signup');
+    let data = { 'email': this.email, 'password': this.password };
+    this.viewCtrl.dismiss(data);
+  }
 
 }
