@@ -39,7 +39,13 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" placeholder="Role" [(ngModel)]="role"></ion-input>
+      <ion-label>Role</ion-label>
+      <ion-select placeholder="Select..." [(ngModel)]="role">
+        <ion-option value="Developer">Developer</ion-option>
+        <ion-option value="Designer">Designer</ion-option>
+        <ion-option value="Marketer">Marketer</ion-option>
+        <ion-option value="Business">Business</ion-option>
+      </ion-select>
     </ion-item>
   </div>
 
