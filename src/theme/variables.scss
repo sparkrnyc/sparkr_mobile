@@ -16,6 +16,25 @@ $toolbar-md-button-text-color: #ffffff !default;
 $toolbar-ios-button-color: #ffffff !default;
 $toolbar-wp-button-color: #ffffff !default;
 $button-md-text-color: #ffffff;
+
+// ProfileDetail margins override
+$text-input-md-margin-top: 0px;
+$text-input-md-margin-bottom: 0px;
+$text-input-md-margin-start: 0px;
+$text-input-md-margin-end: 0px;
+$label-md-margin: 0px 0px 0px 0px;
+
+// StatusBar
+$profilestatusbar-border: 1px solid rgb(150, 159, 170);
+$button-md-margin-bottom: 0px;
+$button-md-margin-top: 0px;
+.profilestatusbar-right {
+  border-right: $profilestatusbar-border;
+  border-left: $profilestatusbar-border;
+  border-top: $profilestatusbar-border;
+  border-bottom: $profilestatusbar-border;
+}
+
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
