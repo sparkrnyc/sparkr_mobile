@@ -4,14 +4,15 @@ import 'rxjs/add/operator/map';
 
 import { AlertController } from 'ionic-angular';
 
-import { Auth, AuthLoginResult, UserDetails, AuthModuleId, IDetailedError } from '@ionic/cloud-angular';
+import { Auth, User, AuthLoginResult, UserDetails, AuthModuleId, IDetailedError } from '@ionic/cloud-angular';
 
 @Injectable()
 export class AuthServiceProvider {
 
   constructor(public alertCtrl: AlertController,
               public http: HttpClient,
-              public auth: Auth) {
+              public auth: Auth,
+              public user: User) {
     //console.log('Hello AuthServiceProvider Provider');
   }
 
@@ -69,6 +70,10 @@ export class AuthServiceProvider {
 
   logout(): any {
       return this.auth.logout();
+  }
+
+  currentUser(): any {
+    return this.user;
   }
 
 }

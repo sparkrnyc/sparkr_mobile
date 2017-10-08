@@ -97,6 +97,24 @@ export class DataServiceProvider {
     });
   }
 
+  public getProfileByEmail(email: string): Promise<Object> {
+    return new Promise(resolve => {
+      this.http.get(this.API_PROFILE)
+      .subscribe( response => {       
+        let profiles = response['data'];
+        let profile = null;
+        profiles.forEach(p => {
+          if(p.email == email){
+            profile = p;
+          }
+        });
+        resolve(profile);
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
   public getNotificationList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_NOTIFICATION)
