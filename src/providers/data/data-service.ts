@@ -10,6 +10,7 @@ export class DataServiceProvider {
   public API_PROFILE: string = 'api/profile';
   public API_TEAM: string = 'api/team';
   public API_PROJECT: string = 'api/project';
+  public API_CONNECTION: string = 'api/connection';
   public API_NOTIFICATION: string = 'api/notification';
 
   public profile: ProfileModel = null;
@@ -17,6 +18,9 @@ export class DataServiceProvider {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * TEAMS
+   */
   public getTeamList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_TEAM)
@@ -28,6 +32,9 @@ export class DataServiceProvider {
     });
   }
 
+  /**
+   * PROJECTS
+   */
   public getProjectList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_PROJECT)
@@ -50,19 +57,9 @@ export class DataServiceProvider {
     });
   }
 
-  public getFeedList(): Promise<Object> {
-    return new Promise(resolve => {
-      this.http.get(this.API_FEED).subscribe( 
-        response => {
-          resolve( response );
-        }, 
-        err => {
-          console.log(err);
-        }
-      );
-    });
-  }
-
+  /**
+   * PROFILES
+   */
   public getProfileList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_PROFILE)
@@ -102,12 +99,13 @@ export class DataServiceProvider {
       this.http.get(this.API_PROFILE)
       .subscribe( response => {       
         let profiles = response['data'];
-        let profile = null;
-        profiles.forEach(p => {
+        let profile = null;      
+        profiles.forEach(p => {       
           if(p.email == email){
             profile = p;
           }
         });
+        // TODO handle profile==null
         resolve(profile);
       }, err => {
         console.log(err);
@@ -115,9 +113,40 @@ export class DataServiceProvider {
     });
   }
 
+  /**
+   * CONNECTIONS
+   */
+  public getConnections(): Promise<Object> {
+    return new Promise(resolve => {
+      this.http.get(this.API_CONNECTION)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  /**
+   * NOTIFICATIONS
+   */
   public getNotificationList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_NOTIFICATION)
+      .subscribe( response => {
+        resolve( response );
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  /**
+   * FEED
+   */
+  public getFeedList(): Promise<Object> {
+    return new Promise(resolve => {
+      this.http.get(this.API_FEED)
       .subscribe( response => {
         resolve( response );
       }, err => {

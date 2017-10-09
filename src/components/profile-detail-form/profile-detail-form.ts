@@ -8,17 +8,17 @@ import { ProfileModel } from '../profile-model';
 export class ProfileDetailFormComponent {
   @Input() profile: ProfileModel = null;
   @Input() edit: boolean = null;
-  constructor() {
-    if(this.profile==null || this.profile.id==null){
-      // create new profile
-    } else {
+  constructor( ){  }
 
-    } 
-  }
   onClicked(toggle){
     if(this.edit==true){
     }
     this.edit = toggle;
+  }
+  inviteClicked(){
+    // get currentUser, 
+    // create an invitations table w 'id, invitor, invitee, team, status'
+    console.log("inviteClicked");
   }
   onSubmit(formValue: any){
     console.log(formValue);

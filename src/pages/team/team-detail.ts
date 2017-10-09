@@ -20,15 +20,18 @@ export class TeamDetailPage {
     this.selectedTeam = navParams.get("team");
     console.log("this.selectedTeam.members:", this.selectedTeam.members);
     
-    this.selectedTeam.members.forEach(number=>{
-      this.dataservice.getProfile(number)
-      .then( (profile) => {
-        console.log("member", profile);
-      },
-      (error) => {
-        console.log("error: "+ error);
+    // TODO this.selectedTeam.members SHOULD NEVER BE NULL
+    if(this.selectedTeam.members!=null){
+      this.selectedTeam.members.forEach(number=>{
+        this.dataservice.getProfile(number)
+        .then( (profile) => {
+          console.log("member", profile);
+        },
+        (error) => {
+          console.log("error: "+ error);
+        });
       });
-    });
+    } 
 
     if(this.selectedTeam==null){
       this.selectedTeam = new TeamModel(null, null, null, null, null);

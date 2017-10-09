@@ -27,7 +27,7 @@ export class MyApp implements OnInit {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      if(this.authService.isAuthenticated()){
+      if(this.authService.currentUser()){
           this.rootPage = TabsPage;
       }else{
           this.rootPage = LoginPage;

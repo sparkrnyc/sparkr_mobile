@@ -9,8 +9,10 @@ import { AuthServiceProvider } from '../../providers/auth/auth-service';
   selector: 'page-profile-detail',
   templateUrl: 'profile-detail.html',
 })
+
 export class ProfileDetailPage {
   selectedProfile: ProfileModel = null;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dataService: DataServiceProvider,
@@ -18,36 +20,35 @@ export class ProfileDetailPage {
             ) {
 
     this.selectedProfile = navParams.get("profile");
-    if(this.selectedProfile==null){
-      console.log("view logged in user");
-      // TODO get this.user from Auth
-      let currentUser = authService.currentUser();
-      console.log("currentUser: ",currentUser);
-      //dataService.getProfileByEmail(this.selectedProfile.email);
-      // currently logged in user
-      this.selectedProfile = new ProfileModel(
-        1, 
-        "remkohdev", 
-        "assets/imgs/profiles/remkohdev.jpg", 
-        "remkohdev@email.com", 
-        "https://linkedin.com/in/remkohdev/", 
-        "Remko", 
-        "de Knikker", 
-        "New York", 
-        "NY", 
-        "US", 
-        "Amsterdam University", 
-        "CS", 
-        "IBM", 
-        "", 
-        "Developer"
-      );
-
+    let currentUser = authService.currentUser();  
+    if(this.selectedProfile==null && currentUser!=null){ 
+      dataService.getProfileByEmail(currentUser.details.email)
+      .then( (profile) => {
+        this.selectedProfile = new ProfileModel(
+          profile['id'],
+          profile['username'],
+          profile['thumbnail'],
+          profile['email'],
+          profile['linkedin'],
+          profile['firstname'],
+          profile['lastname'],
+          profile['city'],
+          profile['state'],
+          profile['country'],
+          profile['college'],
+          profile['degree'],
+          profile['company'],
+          profile['bio'],
+          profile['role']
+        );
+      },
+      (error) => {
+        console.log("error: "+ error);
+      });
     }else{
       console.log("view selected user");
     }
   }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad profileDetailPage');
-  }
+
+  ionViewDidLoad() { }
 }

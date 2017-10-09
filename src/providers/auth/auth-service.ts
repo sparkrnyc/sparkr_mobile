@@ -73,7 +73,12 @@ export class AuthServiceProvider {
   }
 
   currentUser(): any {
-    return this.user;
+    if(this.auth.isAuthenticated()){
+      return this.user;
+    }else{
+      return null;
+    }
+    
   }
 
 }

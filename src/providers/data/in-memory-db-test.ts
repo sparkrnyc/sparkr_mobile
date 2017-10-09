@@ -43,7 +43,7 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         id: "1",
         username: "remkohdev",
         thumbnail: "assets/imgs/profiles/remkohdev.jpg",
-        email: "remkohdev@email.com",
+        email: "user1@email.com",
         linkedin: "https://linkedin.com/in/remkohdev/",
         firstname: "Remko",
         lastname: "de Knikker",
@@ -149,8 +149,8 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         name : "d0pe hAckers_01",
         thumbnail: "assets/imgs/team_icon_1.png",
         description : "Some kind of sample team that intended to work at the upcoming CUNY Hackathon. Super talented team that does..uh..hacking.",
-        members: [
-          1,2
+        connections: [
+          1
         ],
         projects: [
           1
@@ -181,8 +181,46 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         ]
       }
     ];
+
     
-    return { feed, notification, profile, team };
+    let connection = [
+      {
+        id: 1, 
+        invitedBy: 5, 
+        invited: 1, 
+        team: 3,
+        status: 'invited'
+      },
+      {
+        id: 1, 
+        invitedBy: 5, 
+        invited: 6, 
+        team: 3,
+        status: 'accepted'
+      },
+      {
+        id: 1, 
+        invitedBy: 5, 
+        invited: 4, 
+        team: 3,
+        status: 'accepted'
+      },
+      {
+        id: 1, 
+        invitedBy: 5, 
+        invited: 2, 
+        team: 3,
+        status: 'accepted'
+      },
+      {
+        id: 1, 
+        invitedBy: 5, 
+        invited: 3, 
+        team: 3,
+        status: 'declined'
+      }
+    ];
+    return { feed, notification, profile, team, connection };
   }
   
 }
