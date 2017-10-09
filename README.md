@@ -6,6 +6,11 @@
 
 Date: TBD
 
+NOTES:
+* Homepage is ProfileDetail of currentUser matched by Ionic Cloud Auth email.
+* in ProfileDetail form, ion-img was replaced by img, cause ion-img does not load thumbnail first time after login.
+
+
 Description: First prototype release
 
 * Auth Service 
