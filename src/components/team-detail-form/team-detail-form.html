@@ -15,7 +15,7 @@
       </ion-item>
       <ion-item>
         <ion-label for="members" stacked>members</ion-label>
-        <ion-input type="text" name="members" [(ngModel)]="team.members" [disabled]="true"></ion-input>
+        <ion-input type="text" name="members" [(ngModel)]="team.names" [disabled]="true"></ion-input>
         <button ion-button icon-only clear item-right (click)="addMemberClicked(team.id)">
           <ion-icon name="add-circle"></ion-icon>
         </button>
