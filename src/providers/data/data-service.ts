@@ -14,7 +14,7 @@ export class DataServiceProvider {
   public API_NOTIFICATION: string = 'api/notification';
 
   public profile: ProfileModel = null;
-  
+
 
   constructor(private http: HttpClient) { }
 
@@ -72,14 +72,29 @@ export class DataServiceProvider {
   }
 
   public getProfiles(ids: number[]): Promise<Object> {
-    // TODO
-    return null;
-  }
+      return new Promise(resolve => {
+        this.http.get(this.API_PROFILE)
+        .subscribe( response => {
+          let profiles = response['data'];
+          let profilesOutput = [];
+          profiles.forEach(p => {
+            ids.forEach(id => {
+              if (p.id == id) {
+                profilesOutput.push(p);
+              }
+            })
+          });
+          resolve(profilesOutput);
+        }, err => {
+          console.log(err);
+        });
+      });
+    }
 
   public getProfile(id: number): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_PROFILE)
-      .subscribe( response => {       
+      .subscribe( response => {
         let profiles = response['data'];
         let profile = null;
         profiles.forEach(p => {
@@ -97,10 +112,10 @@ export class DataServiceProvider {
   public getProfileByEmail(email: string): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_PROFILE)
-      .subscribe( response => {       
+      .subscribe( response => {
         let profiles = response['data'];
-        let profile = null;      
-        profiles.forEach(p => {       
+        let profile = null;
+        profiles.forEach(p => {
           if(p.email == email){
             profile = p;
           }
