@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, MenuController } from 'ionic-angular';
 import { ProfileModel } from '../../components/profile-model';
 import { DataServiceProvider } from '../../providers/data/data-service';
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
@@ -12,12 +12,17 @@ import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
 export class ProfileDetailPage {
   selectedProfile: ProfileModel = null;
+  activeMenu: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dataService: DataServiceProvider,
-              public authService: AuthServiceProvider
+              public authService: AuthServiceProvider,
+              public modalCtrl: ModalController,
+              public menuCtrl: MenuController
             ) {
+
+    menuCtrl.enable(true);
 
     this.selectedProfile = navParams.get("profile");
     let currentUser = authService.currentUser();  
@@ -51,4 +56,5 @@ export class ProfileDetailPage {
   }
 
   ionViewDidLoad() { }
+  
 }

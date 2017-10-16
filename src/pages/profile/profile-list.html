@@ -1,10 +1,15 @@
-<ion-header>
+<ion-header class="bar bar-header bar-positive">
   <ion-navbar>
-    <ion-title>Sparkr</ion-title>
+    <ion-title>SPARKR</ion-title>
+    <ion-buttons right>
+      <button ion-button menuToggle icon-only>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="has-header">
   <h2>ProfileList</h2>
   <ion-list>
     <ion-item *ngFor="let profile of profiles.data"

@@ -26,6 +26,11 @@ import { ProjectDetailPage } from '../pages/project/project-detail';
 import { ConnectionListPage } from '../pages/connection/connection-list';
 import { NotificationListPage } from '../pages/notification/notification-list';
 import { NotificationDetailPage } from '../pages/notification/notification-detail';
+
+// Header Menu
+import { HeaderPageComponent } from '../components/header-page/header-page';
+import { HeaderMenuPageComponent } from '../components/header-menu-page/header-menu-page';
+
 // Providers
 import { AuthServiceProvider } from '../providers/auth/auth-service';
 import { DataServiceProvider } from '../providers/data/data-service';
@@ -69,7 +74,9 @@ const cloudSettings: CloudSettings = {
     ProjectDetailFormComponent,
     FeedDetailFormComponent,
     NotificationDetailFormComponent,
-    ProfileDetailFormComponent
+    ProfileDetailFormComponent,
+    HeaderPageComponent,
+    HeaderMenuPageComponent
   ],
   imports: [
     BrowserModule,

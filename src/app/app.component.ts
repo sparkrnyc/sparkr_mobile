@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform, AlertController } from 'ionic-angular';
+import { App, Platform, AlertController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -17,10 +17,13 @@ export class MyApp implements OnInit {
   rootPage:any = TabsPage;
 
   constructor(public platform: Platform,
+              public app: App,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public authService: AuthServiceProvider,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController,
+              public menuCtrl: MenuController
+             ) {
 
     platform.ready().then(() => {
 
@@ -37,5 +40,13 @@ export class MyApp implements OnInit {
   }
 
   ngOnInit(): void { }
-
+  /** 
+  logoutClicked() {
+    console.log("Logout");
+    this.authService.logout();
+    this.menuCtrl.close();
+    var nav = this.app.getRootNav();
+    nav.setRoot(LoginPage);
+  }
+  */
 }
