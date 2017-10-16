@@ -35,44 +35,42 @@
                   Invite
               </button>
         </ion-col>
-        <ion-col col-6 class="item middle-buttons " >
-            <button class="item profilestatusbar-right" ion-button block outline ></button>
-        </ion-col>
+        <ion-col col-6 class="item middle-buttons"></ion-col>
       </ion-row>
 
-      <!-- TODO clean up below -->
       <ion-row>
-        <ion-col col-11>
-          <div style="color: #969FAA !important; padding-bottom: 10px">TEAM</div>
-          <div style="font-weight: bold !important; font-size: 16px; padding-bottom: 10px">
-            TBD profile.team.name
-          </div>
-          <div>
-            TBD profile.team
-          </div>
-        </ion-col>
-        <ion-col col-1>
-          <ion-icon name="arrow-dropright" style="padding-top: 55px"></ion-icon>
-        </ion-col>
-      </ion-row>
-
-      <ion-row style="margin-top: 30px">
-        <ion-col col-11>
-          <div style="color: #969FAA !important; padding-bottom: 10px">CONNECTIONS</div>
-          <div>
-            TBD profile.team.members
-          </div>
-        </ion-col>
-        <ion-col col-1>
-          <ion-icon name="arrow-dropright" style="margin-top: 25px"></ion-icon>
+        <ion-col>
+          <ion-row>
+            TEAM
+          </ion-row>
+          <ion-row>
+            <ion-col col-11>
+              TBD profile.team.name
+            </ion-col>
+            <ion-col col-1>
+                <ion-icon name="arrow-dropright"></ion-icon>
+            </ion-col>
+          </ion-row>
         </ion-col>
       </ion-row>
 
-      <ion-row style="margin-top: 30px">
-        <ion-col col-12>
-          <div padding>
+      <ion-row>
+        <ion-col>
+          <ion-row>CONNECTIONS</ion-row>
+          <ion-row>
+            <ion-col col-11>
+                TBD profile.team.members
+            </ion-col>
+            <ion-col col-1>
+              <ion-icon name="arrow-dropright"></ion-icon>
+            </ion-col>          
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>          
             <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>
-          </div>
         </ion-col>
       </ion-row>
 

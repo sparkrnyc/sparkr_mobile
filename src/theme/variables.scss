@@ -25,15 +25,17 @@ $text-input-md-margin-end: 0px;
 $label-md-margin: 0px 0px 0px 0px;
 
 // StatusBar
+/**
 $profilestatusbar-border: 1px solid rgb(150, 159, 170);
 $button-md-margin-bottom: 0px;
 $button-md-margin-top: 0px;
-page-profile-detail .profilestatusbar-right {
-  border-radius: 0px !important;
-  color: #969FAA !important;
-  border-color: #969FAA !important;
-  font-size: 14px !important;
+.profilestatusbar-right {
+  border-right: $profilestatusbar-border;
+  border-left: $profilestatusbar-border;
+  border-top: $profilestatusbar-border;
+  border-bottom: $profilestatusbar-border;
 }
+*/
 
 // Named Color Variables
 // --------------------------------------------------
