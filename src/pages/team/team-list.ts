@@ -25,7 +25,7 @@ export class TeamListPage {
   onSelect(item) {
     this.navCtrl.push(TeamDetailPage, { team: item });
   }
-  addClicked(){
+  addTeamClicked(){
     this.navCtrl.push(TeamDetailPage, { project: null });    
   }
   ionViewDidLoad() {

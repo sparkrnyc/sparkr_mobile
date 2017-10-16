@@ -18,31 +18,31 @@ export class TeamDetailPage {
             ) {
 
     this.selectedTeam = navParams.get("team");
-    console.log("this.selectedTeam.members:", this.selectedTeam.members);
-
-    // TODO this.selectedTeam.members SHOULD NEVER BE NULL
-    if(this.selectedTeam.members!=null){
-       (this.selectedTeam as any).names = "";
-       this.dataservice.getProfiles(this.selectedTeam.members)
-         .then( (profiles) => {
-           let firstMember = (profiles as any)[0];
-           (this.selectedTeam as any).names += firstMember.firstname + " " + firstMember.lastname;
-           for (let i = 1; i < (profiles as any).length; i++) {
-             let currentMember = (profiles as any)[i];
-             (this.selectedTeam as any).names += ", " + currentMember.firstname + " " + currentMember.lastname;
-           }
-         },
-         (error) => {
-           console.log("error: " + error);
-         }
-       )
-     }
-
+    
     if(this.selectedTeam==null){
       this.selectedTeam = new TeamModel(null, null, null, null, null);
       this.edit = true;
     }else{
       this.edit = false;
+      // TODO this.selectedTeam.members SHOULD NEVER BE NULL
+      if(this.selectedTeam.members!=null){
+        console.log("this.selectedTeam.members:", this.selectedTeam.members);
+        
+        (this.selectedTeam as any).names = "";
+        this.dataservice.getProfiles(this.selectedTeam.members)
+          .then( (profiles) => {
+            let firstMember = (profiles as any)[0];
+            (this.selectedTeam as any).names += firstMember.firstname + " " + firstMember.lastname;
+            for (let i = 1; i < (profiles as any).length; i++) {
+              let currentMember = (profiles as any)[i];
+              (this.selectedTeam as any).names += ", " + currentMember.firstname + " " + currentMember.lastname;
+            }
+          },
+          (error) => {
+            console.log("error: " + error);
+          }
+        )
+      }
     }
   }
   ionViewDidLoad() {

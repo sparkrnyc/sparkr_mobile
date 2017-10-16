@@ -20,6 +20,12 @@ export class ProfileDetailFormComponent {
     // create an invitations table w 'id, invitor, invitee, team, status'
     console.log("inviteClicked");
   }
+  teamDetailClicked(){
+    console.log("teamDetailClicked");
+  }
+  connectionListClicked(){
+    console.log("connectionListClicked");
+  }
   onSubmit(formValue: any){
     console.log(formValue);
   }
