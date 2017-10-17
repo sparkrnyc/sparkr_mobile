@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { App, Nav, MenuController } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { App, MenuController } from 'ionic-angular';
 
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
@@ -11,14 +11,13 @@ import { LoginPage } from '../../pages/auth/login';
 })
 
 export class HeaderMenuPageComponent {
-  @ViewChild(Nav) nav: Nav;
-
+  
   constructor(public authService: AuthServiceProvider,
               public menuCtrl: MenuController,
               public app: App
              ) {
     console.log('Hello HeaderMenuPageComponent Component');
-  }
+  } 
 
   logoutClicked() {
     console.log("Logout");
