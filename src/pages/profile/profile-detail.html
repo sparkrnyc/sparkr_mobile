@@ -77,7 +77,14 @@
       
             <ion-row>
               <ion-col>
-                <ion-row>TEAMMATES</ion-row>
+                <ion-row>
+                    <ion-fab top right >
+                        <button ion-fab (click)="addTeamClicked()"><ion-icon name="add"></ion-icon></button>
+                    </ion-fab>
+                </ion-row>
+                <ion-row>
+                  TEAMMATES
+                </ion-row>
                 <ion-row>
                   <ion-list>
                     <ion-item *ngFor="let member of members"
