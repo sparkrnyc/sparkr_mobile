@@ -149,11 +149,11 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         name : "d0pe hAckers_01",
         thumbnail: "assets/imgs/team_icon_1.png",
         description : "Some kind of sample team that intended to work at the upcoming CUNY Hackathon. Super talented team that does..uh..hacking.",
-        connections: [
+        members: [
           1
         ],
-        projects: [
-          1
+        invitations: [
+          
         ]
       },
       {
@@ -164,7 +164,7 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         members: [
           1,3
         ],
-        projects: [
+        invitations: [
           2
         ]
       },
@@ -174,53 +174,15 @@ export class InMemoryDbTestProvider implements InMemoryDbService {
         thumbnail: "assets/imgs/teams/sparkr.png",
         description : "Thinking about going to a Hacakthon in NYC? Want to learn some new skills and test the waters? But do not have a team? Use SPARKR to let others know what you are good at and to find other team members.",
         members: [
-          1,2,4,5,6
+          1,2,4
         ],
-        projects: [
-          3
+        invitations: [
+          5,6
         ]
       }
     ];
-
-    
-    let connection = [
-      {
-        id: 1, 
-        invitedBy: 5, 
-        invited: 1, 
-        team: 3,
-        status: 'invited'
-      },
-      {
-        id: 1, 
-        invitedBy: 5, 
-        invited: 6, 
-        team: 3,
-        status: 'accepted'
-      },
-      {
-        id: 1, 
-        invitedBy: 5, 
-        invited: 4, 
-        team: 3,
-        status: 'accepted'
-      },
-      {
-        id: 1, 
-        invitedBy: 5, 
-        invited: 2, 
-        team: 3,
-        status: 'accepted'
-      },
-      {
-        id: 1, 
-        invitedBy: 5, 
-        invited: 3, 
-        team: 3,
-        status: 'declined'
-      }
-    ];
-    return { feed, notification, profile, team, connection };
+      
+    return { feed, notification, profile, team };
   }
   
 }

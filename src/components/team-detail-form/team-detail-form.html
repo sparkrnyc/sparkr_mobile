@@ -20,13 +20,6 @@
           <ion-icon name="add-circle"></ion-icon>
         </button>
       </ion-item>
-      <ion-item>
-        <ion-label for="projects" stacked>projects</ion-label>
-        <ion-input type="text" name="projects" [(ngModel)]="team.projects" [disabled]="true"></ion-input>
-        <button ion-button icon-only clear item-right (click)="addProjectClicked(team.id)">
-          <ion-icon name="add-circle"></ion-icon>
-        </button>
-      </ion-item>
     </ion-list>
     <div padding>
       <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>

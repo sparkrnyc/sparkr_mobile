@@ -20,9 +20,12 @@ export class TeamDetailPage {
     this.selectedTeam = navParams.get("team");
     
     if(this.selectedTeam==null){
+      // a new team is being created
       this.selectedTeam = new TeamModel(null, null, null, null, null);
       this.edit = true;
     }else{
+      // existing team
+      console.log("profile with existing team");
       this.edit = false;
       // TODO this.selectedTeam.members SHOULD NEVER BE NULL
       if(this.selectedTeam.members!=null){
@@ -43,7 +46,10 @@ export class TeamDetailPage {
           }
         )
       }
+
+
     }
+
   }
   ionViewDidLoad() {
 

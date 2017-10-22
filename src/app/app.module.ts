@@ -17,12 +17,8 @@ import { SignupPage } from '../pages/auth/signup';
 import { AboutPage } from '../pages/about/about';
 import { ProfileListPage } from '../pages/profile/profile-list';
 import { ProfileDetailPage } from '../pages/profile/profile-detail';
-import { FeedListPage } from '../pages/feed/feed-list';
-import { FeedDetailPage } from '../pages/feed/feed-detail';
 import { TeamListPage } from '../pages/team/team-list';
 import { TeamDetailPage } from '../pages/team/team-detail';
-import { ProjectListPage } from '../pages/project/project-list';
-import { ProjectDetailPage } from '../pages/project/project-detail';
 import { ConnectionListPage } from '../pages/connection/connection-list';
 import { NotificationListPage } from '../pages/notification/notification-list';
 import { NotificationDetailPage } from '../pages/notification/notification-detail';
@@ -37,8 +33,6 @@ import { DataServiceProvider } from '../providers/data/data-service';
 import { GlobalServiceProvider } from '../providers/global/global-service';
 // Forms
 import { TeamDetailFormComponent } from '../components/team-detail-form/team-detail-form';
-import { ProjectDetailFormComponent } from '../components/project-detail-form/project-detail-form';
-import { FeedDetailFormComponent } from '../components/feed-detail-form/feed-detail-form';
 import { NotificationDetailFormComponent } from '../components/notification-detail-form/notification-detail-form';
 import { ProfileDetailFormComponent } from '../components/profile-detail-form/profile-detail-form';
 
@@ -61,18 +55,12 @@ const cloudSettings: CloudSettings = {
     AboutPage,
     ProfileListPage,
     ProfileDetailPage,
-    FeedListPage,
-    FeedDetailPage,
     TeamListPage,
     TeamDetailPage,
-    ProjectListPage,
-    ProjectDetailPage,
     ConnectionListPage,
     NotificationListPage,
     NotificationDetailPage,
     TeamDetailFormComponent,
-    ProjectDetailFormComponent,
-    FeedDetailFormComponent,
     NotificationDetailFormComponent,
     ProfileDetailFormComponent,
     HeaderPageComponent,
@@ -94,12 +82,8 @@ const cloudSettings: CloudSettings = {
     AboutPage,
     ProfileListPage,
     ProfileDetailPage,
-    FeedListPage,
-    FeedDetailPage,
     TeamListPage,
     TeamDetailPage,
-    ProjectListPage,
-    ProjectDetailPage,
     ConnectionListPage,
     NotificationListPage,
     NotificationDetailPage

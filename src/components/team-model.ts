@@ -4,6 +4,6 @@ export class TeamModel {
       public name: string,
       public description: string,
       public members: number[],
-      public projects: number[]
+      public invitations: number[],
     ){}
 }

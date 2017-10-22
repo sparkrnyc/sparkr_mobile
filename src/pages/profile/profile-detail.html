@@ -11,5 +11,94 @@
 
 <ion-content padding>
   <h2>ProfileDetail</h2>
-  <profile-detail-form [profile]="selectedProfile"></profile-detail-form>
+  <!--
+  <profile-detail-form [team]="teamForProfile" [profile]="selectedProfile"></profile-detail-form> 
+  -->
+  <div *ngIf="profile!=null">
+      <form>
+        <ion-grid>
+          <!-- see ./theme/variables.css 
+            // ProfileDetail margins override -->
+          <ion-row>
+            <ion-col text-left col-5>
+              <!-- NB "ion-img"-tag does not load on first load after login, "img"-tag does -->
+              <img width="110" height="110" src="{{ profile.thumbnail }}">
+            </ion-col>
+            <ion-col col-7>
+              <ion-row>
+                <ion-label for="id" stacked>Id</ion-label>
+                <ion-input type="text" name="id" [(ngModel)]="profile.id" [disabled]="true"></ion-input>
+              </ion-row>
+              <ion-row>
+                <ion-label for="username" stacked>Username</ion-label>  
+                <ion-input type="text" name="username" [(ngModel)]="profile.username" [disabled]="!edit"></ion-input>
+              </ion-row>
+              <ion-row>
+                  <ion-label for="role" stacked>Role</ion-label>  
+                  <ion-input type="text" name="role" [(ngModel)]="profile.role" [disabled]="!edit"></ion-input>
+              </ion-row>
+              <ion-row>
+                <ion-label for="college" stacked>College</ion-label>  
+                <ion-input type="text" name="college" [(ngModel)]="profile.college" [disabled]="!edit"></ion-input>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+    
+          <ion-row>
+            <ion-col col-6 class="item middle-buttons" >
+                  <button class="item button-styled" ion-button block outline>
+                      <ion-icon name="add-circle" style="padding-right: 8px" (click)="inviteClicked()"></ion-icon>
+                      Invite
+                  </button>
+            </ion-col>
+            <ion-col col-6 class="item middle-buttons"></ion-col>
+          </ion-row>
+    
+          <div *ngIf="team!=null">
+            <ion-row>
+              <ion-col>
+                <ion-row>
+                  MY TEAM INFO
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <ion-row>
+                      <ion-input type="text" name="teamname" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
+                    </ion-row>
+                    <ion-row>                    
+                      <ion-textarea rows="7"
+                        type="text" name="teamdescription" [(ngModel)]="team.description" [disabled]="!edit"></ion-textarea>
+                    </ion-row>
+                  </ion-col>
+                  
+                </ion-row>
+              </ion-col>
+            </ion-row>
+      
+            <ion-row>
+              <ion-col>
+                <ion-row>TEAMMATES</ion-row>
+                <ion-row>
+                  <ion-list>
+                    <ion-item *ngFor="let member of members"
+                        (click)="onMemberSelect(member)"
+                        [class.selected]="profile === member">
+                      <p>{{ member.firstname }} {{ member.lastname }}</p>
+                    </ion-item>
+                  </ion-list>          
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <ion-row>
+            <ion-col>          
+                <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>
+            </ion-col>
+          </ion-row>
+    
+        </ion-grid>
+      </form>
+    </div>
+  
 </ion-content>
