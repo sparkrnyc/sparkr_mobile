@@ -18,11 +18,29 @@
     <ion-item *ngFor="let team of teamList.data"
             (click)="onSelect(team)"
             [class.selected]="team === selectedTeam">
-        <ion-avatar item-start>
-          <img src="{{ team.thumbnail }}">
-        </ion-avatar>
-        <h3>{{ team.name }}</h3>
-        <p>{{ team.description }}</p>
+        <ion-row>
+          <ion-col col-3>
+            <ion-avatar item-start>
+              <img src="{{ team.thumbnail }}">
+            </ion-avatar>
+          </ion-col>
+          <ion-col col-9>
+            <ion-row>
+              {{ team.name }}
+            </ion-row>
+            <ion-row>
+              <p>{{ team.description }}</p>
+            </ion-row>
+            <ion-row>
+              <ion-col col-9>
+
+              </ion-col>
+              <ion-col col-3>
+                <button (click)="onJoinTeamClicked(team)">JOIN</button>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -25,6 +25,9 @@ export class TeamListPage {
   onSelect(item) {
     this.navCtrl.push(TeamDetailPage, { team: item });
   }
+  onJoinTeamClicked(team){
+    console.log("onJoinTeamClicked");
+  }
   addTeamClicked(){
     this.navCtrl.push(TeamDetailPage, { project: null });    
   }
