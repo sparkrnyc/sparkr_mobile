@@ -35,7 +35,9 @@ export class ProfileDetailPage {
       this.loadProfile(currentUser);
     } else {
       // non-currentuser profile
-      this.loadTeam();
+      if(this.profile!=null){
+        this.loadTeam();
+      }
     }
   }
 
@@ -45,11 +47,20 @@ export class ProfileDetailPage {
     this.edit = toggle;
   }
 
+  addTeamClicked(){
+    console.log("addTeamClicked");
+  }
+
+  removeMemberClicked(){
+    console.log("removeMemberClicked");
+  }
+
   loadProfile(currentUser){
-    console.log("currentUser profile");
+    console.log("currentUser profile", currentUser.details);
     this.dataService.getProfileByEmail(currentUser.details.email)
     .then( (p) => {
       this.profile = p;
+      console.log("profileByEmail:", this.profile);
       // add team
       this.loadTeam();
     },

@@ -30,8 +30,8 @@
                 <ion-input type="text" name="id" [(ngModel)]="profile.id" [disabled]="true"></ion-input>
               </ion-row>
               <ion-row>
-                <ion-label for="username" stacked>Username</ion-label>  
-                <ion-input type="text" name="username" [(ngModel)]="profile.username" [disabled]="!edit"></ion-input>
+                <ion-label for="name" stacked>Name</ion-label>  
+                <ion-input type="text" name="name" [(ngModel)]="profile.name" [disabled]="!edit"></ion-input>
               </ion-row>
               <ion-row>
                   <ion-label for="role" stacked>Role</ion-label>  
@@ -75,28 +75,33 @@
               </ion-col>
             </ion-row>
       
+   
             <ion-row>
-              <ion-col>
-                <ion-row>
-                    <ion-fab top right >
-                        <button ion-fab (click)="addTeamClicked()"><ion-icon name="add"></ion-icon></button>
-                    </ion-fab>
-                </ion-row>
-                <ion-row>
-                  TEAMMATES
-                </ion-row>
-                <ion-row>
-                  <ion-list>
-                    <ion-item *ngFor="let member of members"
-                        (click)="onMemberSelect(member)"
-                        [class.selected]="profile === member">
-                      <p>{{ member.firstname }} {{ member.lastname }}</p>
-                    </ion-item>
-                  </ion-list>          
-                </ion-row>
+              <ion-col col-10>
+                TEAMMATES
+              </ion-col>
+              <ion-col col-2>
+                <button (click)="addTeamClicked()">
+                  <ion-icon name="add"></ion-icon>
+                </button>
               </ion-col>
             </ion-row>
 
+            <ion-list>
+              <ion-item *ngFor="let member of members"
+                  (click)="onMemberSelect(member)"
+                  [class.selected]="profile === member">
+                <ion-row>
+                    <ion-col col-11>
+                        <p>{{ member.firstname }} {{ member.lastname }}</p>
+                    </ion-col>
+                  <ion-col col-1>
+                      <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
+                  </ion-col>
+                </ion-row>
+              </ion-item>
+            </ion-list>          
+      
             <ion-row>
               <ion-col>
                 <ion-row>NOW RECRUITING</ion-row>

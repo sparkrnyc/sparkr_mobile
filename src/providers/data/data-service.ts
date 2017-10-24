@@ -89,6 +89,48 @@ export class DataServiceProvider {
   /**
    * PROFILES
    */
+  public genProfileId(): Promise<number> {
+    var newId = 0;
+    return new Promise(resolve => {
+      this.http.get(this.API_PROFILE)
+      .subscribe( response => {
+        let profiles = response['data'];
+        profiles.forEach(p => {
+          if(p['id']>newId){
+            newId=p['id'];
+          }
+        });
+        newId++;
+        resolve(newId);
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
+  public createProfile(profile: ProfileModel): Promise<ProfileModel> {
+    return new Promise(resolve => {
+      this.http.post(this.API_PROFILE, profile)
+      .subscribe( p => {
+        console.log("POST /profile response:", p)
+        let profile = new ProfileModel(
+          p['id'],
+          p['name'],
+          p['thumbnail'],
+          p['email'],
+          p['linkedin'],
+          p['college'],
+          p['major'],
+          p['bio'],
+          p['role']
+        );
+        resolve( profile );
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
   public getProfileList(): Promise<Object> {
     return new Promise(resolve => {
       this.http.get(this.API_PROFILE)
@@ -110,18 +152,12 @@ export class DataServiceProvider {
           if(p.id == id){
             profile = new ProfileModel(
               p['id'],
-              p['username'],
+              p['name'],
               p['thumbnail'],
               p['email'],
               p['linkedin'],
-              p['firstname'],
-              p['lastname'],
-              p['city'],
-              p['state'],
-              p['country'],
               p['college'],
-              p['degree'],
-              p['company'],
+              p['major'],
               p['bio'],
               p['role']
             );
@@ -144,18 +180,12 @@ export class DataServiceProvider {
           if(p.email == email){
             profile = new ProfileModel(
               p['id'],
-              p['username'],
+              p['name'],
               p['thumbnail'],
               p['email'],
               p['linkedin'],
-              p['firstname'],
-              p['lastname'],
-              p['city'],
-              p['state'],
-              p['country'],
               p['college'],
-              p['degree'],
-              p['company'],
+              p['major'],
               p['bio'],
               p['role']
             );
