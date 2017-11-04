@@ -11,28 +11,32 @@
   <div>
 
     <ion-item>
-      <ion-input type="text" placeholder="Name" [(ngModel)]="profile.name"></ion-input>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="member.username"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="email" placeholder="Email" [(ngModel)]="profile.email"></ion-input>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="member.password"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="password"></ion-input>
+      <ion-input type="text" placeholder="Name" [(ngModel)]="member.name"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" placeholder="College" [(ngModel)]="profile.college"></ion-input>
+      <ion-input type="email" placeholder="Email" [(ngModel)]="member.email"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" placeholder="Major" [(ngModel)]="profile.major"></ion-input>
+      <ion-input type="text" placeholder="College" [(ngModel)]="member.college"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Major" [(ngModel)]="member.major"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Role</ion-label>
-      <ion-select placeholder="Select..." [(ngModel)]="profile.role">
+      <ion-select placeholder="Select..." [(ngModel)]="member.role">
         <ion-option value="Developer">Developer</ion-option>
         <ion-option value="Designer">Designer</ion-option>
         <ion-option value="Marketer">Marketer</ion-option>

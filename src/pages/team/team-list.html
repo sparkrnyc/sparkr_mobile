@@ -14,8 +14,8 @@
     <button ion-fab (click)="addTeamClicked()"><ion-icon name="add"></ion-icon></button>
   </ion-fab>
   <h2>TeamList</h2>
-  <ion-list>
-    <ion-item *ngFor="let team of teamList.data"
+  <ion-list *ngIf="teams">
+    <ion-item *ngFor="let team of teams"
             (click)="onSelect(team)"
             [class.selected]="team === selectedTeam">
         <ion-row>

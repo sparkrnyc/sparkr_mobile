@@ -4,81 +4,110 @@ import 'rxjs/add/operator/map';
 
 import { AlertController } from 'ionic-angular';
 
-import { Auth, User, AuthLoginResult, UserDetails, AuthModuleId, IDetailedError } from '@ionic/cloud-angular';
+import { DataServiceProvider } from '../data/data-service';
+
+import { LoginDetailsModel } from '../../components/login-details-model';
+import { MemberModel } from '../../components/member-model';
 
 @Injectable()
 export class AuthServiceProvider {
 
+  loggedInUser: MemberModel = null;
+  
   constructor(public alertCtrl: AlertController,
               public http: HttpClient,
-              public auth: Auth,
-              public user: User) {
+              public dataService: DataServiceProvider,
+            ) {
     //console.log('Hello AuthServiceProvider Provider');
   }
 
-  isAuthenticated(): boolean {
-        return this.auth.isAuthenticated();
+  isLoggedIn(): boolean {
+    if(this.loggedInUser && this.dataService.getAccessToken){
+      return true;
+    }else{
+      return false;
+    }
   }
-
+  
   /**
    * http://legacy.docs.ionic.io/docs/user-authentication
    */
+  /** 
+  isAuthenticated(): boolean {
+    return this.auth.isAuthenticated();
+  }
+  */
+  /**
+   * Replaced Ionic Auth by Loopback Auth
+   */
 
-  login(moduleId: AuthModuleId, details: UserDetails): any {
 
-    if(moduleId == 'instagram'){
+  login(loginDetails: LoginDetailsModel): Promise<any> {
+    return new Promise( (resolve, reject) => {
 
-      return this.auth.login(moduleId)
-      .then((user: AuthLoginResult) => {
-        return user;
-      }, (err) => {
-        return {error: err};
-      });
-
-    }else{
-
-      // login input validation
-      if(details.email === '' || details.password === '') {
+      if(loginDetails.loginType == 'loopback'){
+        
+        console.log('auth-service.login:', loginDetails);
+        // login input validation
+        if(loginDetails.username === '' && loginDetails.password === '') {
           let alert = this.alertCtrl.create({
-              title:'Register Error',
-              subTitle:'All fields are required',
+              title:'Login Error',
+              subTitle:'Username and Password are required to login',
               buttons:['OK']
           });
           alert.present();
-          return;
+          reject({'error': 'Login error: Username and Password are required to login.'});
+        }
+
+        this.dataService.login(loginDetails.username, loginDetails.password)
+        .then((loggedInUser: MemberModel) => {
+          this.loggedInUser = loggedInUser;
+          console.log("logged in,loggedInUser:", this.loggedInUser);
+          resolve(loggedInUser);
+
+        }, (err) => {
+          console.log("Login error:", err);
+          reject({'error': err});
+        });
+
+      } else {
+
+        var alert = this.alertCtrl.create({
+          title:'Login Error',
+          subTitle:'Only Loopback is supported to login',
+          buttons:['OK']
+        });
+        alert.present();
+        reject({'error': 'Login error: Only Loopback is supported to login.'});
       }
 
-      return this.auth.login(moduleId, details)
-      .then((user: AuthLoginResult) => {
-        return user;
-      }, (err) => {
-        return {error: err};
-      });
-
-    }
+    });
   }
 
-  signup(details): any {
-
-      // 'this.user' is now registered
-      return this.auth.signup(details).then(() => {
-        return {error: null};
-      }, (err: IDetailedError<string[]>) => {
-        return {error: err};
+  signup(member: MemberModel): Promise<MemberModel> {   
+    return new Promise(resolve => {
+      this.dataService.createMember(member)
+      .then((loggedInUser: MemberModel) => {
+        console.log("signed up, loggedInUser:", this.loggedInUser);
+        resolve(loggedInUser);
+      }, (err) => {
+        console.log("Signup error:", err);
       });
+    });
   }
 
   logout(): any {
-      return this.auth.logout();
+    this.loggedInUser = null;
+    this.dataService.clearAccessToken();
+    console.log("logged out,loggedInUser:", this.loggedInUser);
+    return;
   }
 
-  currentUser(): any {
-    if(this.auth.isAuthenticated()){
-      return this.user;
-    }else{
-      return null;
+  currentUser(): MemberModel {
+    if(this.isLoggedIn() && this.loggedInUser){
+      console.log("currentUser,loggedInUser: ", this.loggedInUser);
+      return this.loggedInUser;
     }
-    
   }
 
 }

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { ViewController, NavController } from 'ionic-angular';
-import { Auth, User } from '@ionic/cloud-angular';
-import { DataServiceProvider } from '../../providers/data/data-service';
-import { ProfileModel } from '../../components/profile-model';
+import { ViewController, ModalController, NavController, LoadingController } from 'ionic-angular';
+import { AuthServiceProvider } from '../../providers/auth/auth-service';
+import { MemberModel } from '../../components/member-model';
 
 @Component({
   selector: 'page-signup',
@@ -12,64 +11,54 @@ import { ProfileModel } from '../../components/profile-model';
 export class SignupPage {
 
   showLogin:boolean = true;
-  profile: ProfileModel = null;
+  member: MemberModel = null;
   password: string = null;
 
   constructor(public navCtrl: NavController,
-              public viewCtrl: ViewController,
-              public auth: Auth,
-              public user: User,
-              public dataService: DataServiceProvider
+              public modalCtrl: ModalController,
+              public authService: AuthServiceProvider,
+              public loadingCtrl: LoadingController,
+              public viewCtrl: ViewController
     ) {
-      this.profile = new ProfileModel(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-      );
-    }
-
-  signupClicked() {
-    console.log('process signup');
-    let data = { 'email': this.profile.email, 'password': this.password };
-    //
-    var newId = null;
-    this.dataService.genProfileId()
-    .then( (nid) => {
-      newId = nid;
-      console.log("newId:",newId);
-    },
-    (error) => {
-      console.log("error: "+ error);
-    });
-
-    let profile = new ProfileModel(
-      newId,
-      this.profile.name,
-      'assets/imgs/roles/'+this.profile.role+'.png',
-      this.profile.email,
+    this.member = new MemberModel(
+      null,
+      'loopback',
       '',
-      this.profile.college,
-      this.profile.major,
       '',
-      this.profile.role
+      '',
+      '',
+      false,
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      ''
     );
-
-    this.dataService.createProfile(profile)
-    .then( (p) => {
-      this.profile = p;
-      console.log("new profile:",this.profile);
-    },
-    (error) => {
-      console.log("error: "+ error);
-    });
-    
-    this.viewCtrl.dismiss(data);
   }
 
+  signupClicked() {
+    console.log('signupClicked');
+
+    var loader = this.loadingCtrl.create({
+      content: "Signing up..."
+    });
+    loader.present();
+    setTimeout(() => {
+      loader.dismiss();
+    }, 5000);
+   
+    this.authService.signup(this.member)
+    .then((newMember) => {
+      if(newMember){
+        loader.dismissAll();
+        this.viewCtrl.dismiss(newMember);
+      }
+    }, (err) => {
+      console.log("Signup error:", err);
+      return;
+    });  
+  }
 }

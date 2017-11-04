@@ -14,14 +14,10 @@ import { TabsPage } from '../pages/tabs/tabs';
 // Pages
 import { LoginPage } from '../pages/auth/login';
 import { SignupPage } from '../pages/auth/signup';
-import { AboutPage } from '../pages/about/about';
-import { ProfileListPage } from '../pages/profile/profile-list';
-import { ProfileDetailPage } from '../pages/profile/profile-detail';
+import { MemberListPage } from '../pages/member/member-list';
+import { MemberDetailPage } from '../pages/member/member-detail';
 import { TeamListPage } from '../pages/team/team-list';
 import { TeamDetailPage } from '../pages/team/team-detail';
-import { ConnectionListPage } from '../pages/connection/connection-list';
-import { NotificationListPage } from '../pages/notification/notification-list';
-import { NotificationDetailPage } from '../pages/notification/notification-detail';
 
 // Header Menu
 import { HeaderPageComponent } from '../components/header-page/header-page';
@@ -33,12 +29,7 @@ import { DataServiceProvider } from '../providers/data/data-service';
 import { GlobalServiceProvider } from '../providers/global/global-service';
 // Forms
 import { TeamDetailFormComponent } from '../components/team-detail-form/team-detail-form';
-import { NotificationDetailFormComponent } from '../components/notification-detail-form/notification-detail-form';
-import { ProfileDetailFormComponent } from '../components/profile-detail-form/profile-detail-form';
-
-// InMemoryDbService
-import { InMemoryDbTestProvider } from '../providers/data/in-memory-db-test';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { MemberDetailFormComponent } from '../components/member-detail-form/member-detail-form';
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -52,17 +43,12 @@ const cloudSettings: CloudSettings = {
     TabsPage,
     LoginPage,
     SignupPage,
-    AboutPage,
-    ProfileListPage,
-    ProfileDetailPage,
+    MemberListPage,
+    MemberDetailPage,
     TeamListPage,
     TeamDetailPage,
-    ConnectionListPage,
-    NotificationListPage,
-    NotificationDetailPage,
     TeamDetailFormComponent,
-    NotificationDetailFormComponent,
-    ProfileDetailFormComponent,
+    MemberDetailFormComponent,
     HeaderPageComponent,
     HeaderMenuPageComponent
   ],
@@ -70,8 +56,7 @@ const cloudSettings: CloudSettings = {
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
-    CloudModule.forRoot(cloudSettings),
-    HttpClientInMemoryWebApiModule.forRoot(InMemoryDbTestProvider)
+    CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -79,14 +64,10 @@ const cloudSettings: CloudSettings = {
     TabsPage,
     LoginPage,
     SignupPage,
-    AboutPage,
-    ProfileListPage,
-    ProfileDetailPage,
+    MemberListPage,
+    MemberDetailPage,
     TeamListPage,
-    TeamDetailPage,
-    ConnectionListPage,
-    NotificationListPage,
-    NotificationDetailPage
+    TeamDetailPage
   ],
   providers: [
     StatusBar,
@@ -94,8 +75,7 @@ const cloudSettings: CloudSettings = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     DataServiceProvider,
-    GlobalServiceProvider,
-    InMemoryDbTestProvider
+    GlobalServiceProvider
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })

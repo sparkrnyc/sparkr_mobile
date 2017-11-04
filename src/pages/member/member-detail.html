@@ -10,36 +10,44 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>ProfileDetail</h2>
+  <h2>MemberDetail</h2>
   <!--
-  <profile-detail-form [team]="teamForProfile" [profile]="selectedProfile"></profile-detail-form> 
+  <member-detail-form [team]="teamForMember" [member]="selectedMember"></member-detail-form> 
   -->
-  <div *ngIf="profile!=null">
+  <div *ngIf="member!=null">
       <form>
         <ion-grid>
           <!-- see ./theme/variables.css 
-            // ProfileDetail margins override -->
+            // MemberDetail margins override -->
           <ion-row>
             <ion-col text-left col-5>
               <!-- NB "ion-img"-tag does not load on first load after login, "img"-tag does -->
-              <img width="110" height="110" src="{{ profile.thumbnail }}">
+              <img width="110" height="110" src="{{ member.thumbnail }}">
             </ion-col>
             <ion-col col-7>
               <ion-row>
                 <ion-label for="id" stacked>Id</ion-label>
-                <ion-input type="text" name="id" [(ngModel)]="profile.id" [disabled]="true"></ion-input>
+                <ion-input type="text" name="id" [(ngModel)]="member.id" [disabled]="true"></ion-input>
+              </ion-row>
+              <ion-row>
+                <ion-label for="name" stacked>Username</ion-label>  
+                <ion-input type="text" name="username" [(ngModel)]="member.username" [disabled]="true"></ion-input>
               </ion-row>
               <ion-row>
                 <ion-label for="name" stacked>Name</ion-label>  
-                <ion-input type="text" name="name" [(ngModel)]="profile.name" [disabled]="!edit"></ion-input>
+                <ion-input type="text" name="name" [(ngModel)]="member.name" [disabled]="!edit"></ion-input>
               </ion-row>
               <ion-row>
-                  <ion-label for="role" stacked>Role</ion-label>  
-                  <ion-input type="text" name="role" [(ngModel)]="profile.role" [disabled]="!edit"></ion-input>
+                <ion-label>Role</ion-label>
+                <ion-input *ngIf="!edit" type="text" name="role" [(ngModel)]="member.role" [disabled]="!edit"></ion-input>
+
+                <ion-select *ngIf="edit" placeholder="Select..." [(ngModel)]="member.role" name="role">
+                  <ion-option *ngFor="let roleOption of roleOptions" [value]="roleOption" [selected]="roleOption==member.role">{{roleOption}}</ion-option>
+                </ion-select>
               </ion-row>
               <ion-row>
                 <ion-label for="college" stacked>College</ion-label>  
-                <ion-input type="text" name="college" [(ngModel)]="profile.college" [disabled]="!edit"></ion-input>
+                <ion-input type="text" name="college" [(ngModel)]="member.college" [disabled]="!edit"></ion-input>
               </ion-row>
             </ion-col>
           </ion-row>
@@ -88,12 +96,12 @@
             </ion-row>
 
             <ion-list>
-              <ion-item *ngFor="let member of members"
-                  (click)="onMemberSelect(member)"
-                  [class.selected]="profile === member">
+              <ion-item *ngFor="let m of members"
+                  (click)="onMemberSelect(m)"
+                  [class.selected]="member === m">
                 <ion-row>
                     <ion-col col-11>
-                        <p>{{ member.firstname }} {{ member.lastname }}</p>
+                        <p>{{ m.firstname }} {{ m.lastname }}</p>
                     </ion-col>
                   <ion-col col-1>
                       <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
@@ -111,10 +119,10 @@
 
           <ion-row>
             <ion-col>          
-                <button ion-button color="primary" (click)="onClicked(!edit)">{{edit? "save" : "edit"}}</button>
+                <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
             </ion-col>
           </ion-row>
-    
+
         </ion-grid>
       </form>
     </div>

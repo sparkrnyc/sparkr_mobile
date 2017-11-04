@@ -10,17 +10,17 @@
 </ion-header>
 
 <ion-content padding class="has-header">
-  <h2>ProfileList</h2>
+  <h2>MemberList</h2>
   <ion-list>
-    <ion-item *ngFor="let profile of profiles.data"
-            (click)="onSelect(profile)"
-            [class.selected]="profile === selectedProfile">
+    <ion-item *ngFor="let m of members"
+            (click)="onSelect(m)"
+            [class.selected]="m === selectedMember">
         <ion-avatar item-start>
-          <img src="{{ profile.thumbnail }}">
+          <img src="{{ m.thumbnail }}">
         </ion-avatar>
-        <h3>{{ profile.name }}</h3>
-        <p>{{ profile.role }}</p>
-        <p>{{ profile.college }}, {{ profile.major }}</p>
+        <h3>{{ m.name }}</h3>
+        <p>{{ m.role }}</p>
+        <p>{{ m.college }}, {{ m.major }}</p>
     </ion-item>
   </ion-list>
 </ion-content>

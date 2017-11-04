@@ -1,9 +1,10 @@
 export class TeamModel {
     constructor(
-      public id: number,
+      public id: string,
       public name: string,
       public description: string,
-      public members: number[],
-      public invitations: number[],
+      public members: string[],
+      public invitations: string[],
+      public teamOwnerId: string
     ){}
 }

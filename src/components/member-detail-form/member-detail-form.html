@@ -1,29 +1,29 @@
-<div *ngIf="profile!=null && team!=null">
+<div *ngIf="member!=null && team!=null">
     <form>
       <ion-grid>
         <!-- see ./theme/variables.css 
-          // ProfileDetail margins override -->
+          // MemberDetail margins override -->
         <ion-row>
           <ion-col text-left col-5>
             <!-- NB "ion-img"-tag does not load on first load after login, "img"-tag does -->
-            <img width="110" height="110" src="{{ profile.thumbnail }}">
+            <img width="110" height="110" src="{{ member.thumbnail }}">
           </ion-col>
           <ion-col col-7>
             <ion-row>
               <ion-label for="id" stacked>Id</ion-label>
-              <ion-input type="text" name="id" [(ngModel)]="profile.id" [disabled]="true"></ion-input>
+              <ion-input type="text" name="id" [(ngModel)]="member.id" [disabled]="true"></ion-input>
             </ion-row>
             <ion-row>
               <ion-label for="username" stacked>Username</ion-label>  
-              <ion-input type="text" name="username" [(ngModel)]="profile.username" [disabled]="!edit"></ion-input>
+              <ion-input type="text" name="username" [(ngModel)]="member.username" [disabled]="!edit"></ion-input>
             </ion-row>
             <ion-row>
                 <ion-label for="role" stacked>Role</ion-label>  
-                <ion-input type="text" name="role" [(ngModel)]="profile.role" [disabled]="!edit"></ion-input>
+                <ion-input type="text" name="role" [(ngModel)]="member.role" [disabled]="!edit"></ion-input>
             </ion-row>
             <ion-row>
               <ion-label for="college" stacked>College</ion-label>  
-              <ion-input type="text" name="college" [(ngModel)]="profile.college" [disabled]="!edit"></ion-input>
+              <ion-input type="text" name="college" [(ngModel)]="member.college" [disabled]="!edit"></ion-input>
             </ion-row>
           </ion-col>
         </ion-row>
@@ -62,7 +62,7 @@
             <ion-row>CONNECTIONS</ion-row>
             <ion-row>
               <ion-col col-11>
-                  TBD profile.team.members
+                  TBD member.team.members
               </ion-col>
               <ion-col col-1>
                 <ion-icon name="arrow-dropright" (click)="connectionListClicked()"></ion-icon>

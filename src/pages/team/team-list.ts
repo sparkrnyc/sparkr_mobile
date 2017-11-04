@@ -10,13 +10,16 @@ import { TeamDetailPage } from './team-detail';
 })
 
 export class TeamListPage {
-  teamList: Object = null;
+  
+  teams: Object = null;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dataService: DataServiceProvider) {
-    this.teamList = this.dataService.getTeamList()
-      .then( (teamList) => {
-        this.teamList = teamList;
+
+    this.dataService.getTeams()
+      .then( (teams) => {
+        this.teams = teams;
       },
       (error) => {
         console.log("error: "+ error);

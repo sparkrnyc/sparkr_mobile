@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { Tabs } from 'ionic-angular';
 import { Platform } from 'ionic-angular';
 
-import { ProfileListPage } from '../profile/profile-list';
+import { MemberListPage } from '../member/member-list';
 import { TeamListPage } from '../team/team-list';
-import { ProfileDetailPage } from '../profile/profile-detail';
+import { MemberDetailPage } from '../member/member-detail';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -15,9 +15,9 @@ export class TabsPage {
   private isAndroid: boolean = false;
   @ViewChild('myTabs') myTabs: Tabs;
 
-  tab1Root = ProfileDetailPage;//MyProfile
+  tab1Root = MemberDetailPage;//MyMember
   tab2Root = TeamListPage;//Teams
-  tab3Root = ProfileListPage;//Profiles
+  tab3Root = MemberListPage;//Members
 
   constructor(public platform: Platform
              ) {

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController, AlertController, LoadingController } from 'ionic-angular';
-import { User, UserDetails, AuthModuleId  } from '@ionic/cloud-angular';
+import { NavController, AlertController, LoadingController, ModalController } from 'ionic-angular';
 
 import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from './signup';
 
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
+import { LoginDetailsModel } from '../../components/login-details-model';
 
 @Component({
   selector: 'page-login',
@@ -16,24 +16,23 @@ import { AuthServiceProvider } from '../../providers/auth/auth-service';
 export class LoginPage {
 
   showLogin:boolean = true;
-  email:string = '';
   password:string = '';
-  name:string = '';
+  username:string = '';
 
   constructor(public navCtrl: NavController,
               public authService: AuthServiceProvider,
-              public user: User,
               public alertCtrl: AlertController,
-              public loadingCtrl:LoadingController,
+              public loadingCtrl: LoadingController,
               public modalCtrl: ModalController) {
 
-    if (this.authService.isAuthenticated()) {
+    if (this.authService.isLoggedIn) {
       //this.navCtrl.push(TabsPage);
     }
   }
 
 	login(type) {
-    let loader = this.loadingCtrl.create({
+
+    var loader = this.loadingCtrl.create({
         content: "Logging in..."
     });
     loader.present();
@@ -43,32 +42,32 @@ export class LoginPage {
 
     console.log('process login');
     this.showLogin = true;
-    let moduleId: AuthModuleId = type;
-    let details: UserDetails = { 'email':this.email, 'password':this.password };
-    this.authService.login(moduleId, details)
-    .then( (user) => {
-      console.log('user successfully logged in');
+
+    var loginDetails = new LoginDetailsModel(
+      'loopback',
+      this.username,
+      this.password
+    );
+   
+    this.authService.login(loginDetails)
+    .then(m => {
+      if(this.authService.isLoggedIn){
+        console.log('user successfully logged in');
+        loader.dismissAll();
+        this.navCtrl.setRoot(TabsPage);
+      }
+    }, (err) => {
+      console.log("Login error:", err);
       loader.dismissAll();
-      this.navCtrl.setRoot(TabsPage);
-    }, (errors) => {
-      console.log(errors);
     });
 	}
 
 	signup() {
     console.log('process signup');
     const signupModal = this.modalCtrl.create(SignupPage);
-    signupModal.onDidDismiss(data => {
-      console.log("data:", data);
-      let details: UserDetails = {
-	  		'email': data.email,
-	  		'password': data.password
-      };
-      console.log("details:", details);
-		  this.authService.signup(details).then( () => {
-			  // 'this.user' is now registered
+    signupModal.onDidDismiss(m => {
+      console.log("login.signup.newmember:", m);
 			  this.showLogin = true;    
-      }, (errors) => {});
     });
     signupModal.present();
 	}
