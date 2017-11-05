@@ -16,15 +16,17 @@
   <h2>TeamList</h2>
   <ion-list *ngIf="teams">
     <ion-item *ngFor="let team of teams"
-            (click)="onSelect(team)"
+            (click)="onTeamDetailClicked(team)"
             [class.selected]="team === selectedTeam">
         <ion-row>
+          <!--
           <ion-col col-3>
             <ion-avatar item-start>
               <img src="{{ team.thumbnail }}">
             </ion-avatar>
           </ion-col>
-          <ion-col col-9>
+          -->
+          <ion-col col-10>
             <ion-row>
               {{ team.name }}
             </ion-row>
@@ -32,13 +34,13 @@
               <p>{{ team.description }}</p>
             </ion-row>
             <ion-row>
-              <ion-col col-9>
-
-              </ion-col>
-              <ion-col col-3>
-                <button (click)="onJoinTeamClicked(team)">JOIN</button>
-              </ion-col>
+              <button (click)="onJoinTeamClicked(team)">JOIN</button>
             </ion-row>
+          </ion-col>
+          <ion-col col-2>
+            <button>
+              <ion-icon name='arrow-dropright-outline'></ion-icon>
+            </button>
           </ion-col>
         </ion-row>
     </ion-item>

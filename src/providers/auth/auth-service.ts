@@ -16,7 +16,7 @@ export class AuthServiceProvider {
   
   constructor(public alertCtrl: AlertController,
               public http: HttpClient,
-              public dataService: DataServiceProvider,
+              public dataService: DataServiceProvider
             ) {
     //console.log('Hello AuthServiceProvider Provider');
   }

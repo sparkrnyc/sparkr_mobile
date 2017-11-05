@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
+
 import { MemberModel } from '../../components/member-model';
 import { TeamModel } from '../../components/team-model';
 
@@ -23,7 +24,8 @@ export class DataServiceProvider {
   private access_token: string = null;
   public member: MemberModel = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient
+              ) { }
 
   /**
    * ADMIN
@@ -89,39 +91,90 @@ export class DataServiceProvider {
     });
   }
 
-  public getTeamByMemberId(id: string): Promise<TeamModel> {
-    console.log("memberid:",id);
 
+  public createTeam(team: TeamModel): Promise<TeamModel> {
     return new Promise(resolve => {
 
-      var qry = this.API_TEAM+'?';
-      qry += 'filter[where][members][inq]='+id;
-      console.log("getTeamByMemberId.qry: ", qry);
-      this.http.get(qry)
-      .subscribe( response => {
-        console.log("teamByMemberId:", response);
-        let teams = response['data'];
-        let team = null;
-        teams.forEach(t => {
-          t['members'].forEach(cid=>{
-            if(cid == id) {
-              team = new TeamModel(
-                t['id'],
-                t['name'],
-                t['description'],
-                t['members'],
-                t['invitations'],
-                t['teamOwnerId']
-              );
-            }
-          });
-        });
-        resolve( team );
+      if(team.invitations==null){
+        team.invitations = [];
+      }
+      var body = JSON.stringify({
+        "name": team.name,
+        "description": team.description,
+        "members": [team.members.join()],
+        "invitations": team.invitations,
+        "teamOwnerId": team.teamOwnerId
+      });
+      console.log("createTeam.body",body);
+
+      var headers = {
+        headers: new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('content-type', 'application/json')
+          .set('x-ibm-client-id', this.APIKEY)
+      };
+
+      var url = this.API_TEAM+"?access_token="+this.access_token;
+
+      this.http.post(url, body, headers)
+      .subscribe( t => {
+        var team = new TeamModel(
+          t['id'],
+          t['name'],
+          t['description'],
+          t['members'],
+          t['invitations'],
+          t['teamOwnerId']
+        );
+        resolve(team);
+
       }, err => {
         console.log(err);
       });
     });
   }
+
+  public updateTeam(team: TeamModel): Promise<TeamModel> {
+    console.log("updateTeam:", team);
+    return new Promise(resolve => {
+
+      var body = JSON.stringify({
+        "id": team.id,
+        "name": team.name,
+        "description": team.description,
+        "members": team.members.join(),
+        "invitations": team.invitations.join(),
+        "teamOwnerId": team.teamOwnerId
+      });
+
+      var headers = {
+        headers: new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('content-type', 'application/json')
+          .set('x-ibm-client-id', this.APIKEY)
+      };
+
+      var url = this.API_TEAM+"/"+ team.id+"?access_token="+this.access_token;
+
+      this.http.put(url, body, headers)
+      .subscribe( t => {
+        console.log("updateTeam.t:", t);
+        var team = new TeamModel(
+          t['id'],
+          t['name'],
+          t['description'],
+          t['members'],
+          t['invitations'],
+          t['teamOwnerId']
+        );
+        resolve(team);
+
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
+
 
   /**
    * MEMBERS
@@ -327,7 +380,7 @@ export class DataServiceProvider {
     });
   }
 
-  public getMemberById(id: number): Promise<MemberModel> {
+  public getMemberById(id: string): Promise<MemberModel> {
     return new Promise(resolve => {
       this.http.get(this.API_MEMBER+'/'+id)
       .subscribe( m => {
@@ -383,6 +436,7 @@ export class DataServiceProvider {
     });
   }
 
+
   public getMembersByIds(ids: string[]): Promise<MemberModel[]> {
     return new Promise(resolve => {
       var qry = this.API_MEMBER+'?';
@@ -420,5 +474,6 @@ export class DataServiceProvider {
       });
     });
   }
+
 
 }

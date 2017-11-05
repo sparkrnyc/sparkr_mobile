@@ -11,5 +11,55 @@
 
 <ion-content padding>
   <h2>TeamDetail</h2>
-  <team-detail-form [team]="selectedTeam" [edit]="edit"></team-detail-form>
+  <!--<team-detail-form [team]="selectedTeam" [teamMembers]="selectedTeamMembers" [edit]="edit"></team-detail-form>-->
+  
+  <div>
+  <form>
+    <ion-list>
+      <ion-item>
+        <ion-label for="id" stacked>id</ion-label>
+        <ion-input type="text" name="id" [(ngModel)]="team.id" [disabled]="true"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="name" stacked>name</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="description" stacked>description</ion-label>
+        <ion-input type="text" name="description" [(ngModel)]="team.description" [disabled]="!edit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label for="teamMembers" stacked>members</ion-label> 
+        <button ion-button icon-only clear item-right (click)="addMemberClicked(team.id)">
+          <ion-icon name="add-circle"></ion-icon>
+        </button>  
+      </ion-item>
+      <ion-item> 
+        <ion-row *ngFor="let m of teamMembers"
+          (click)="onMemberDetailSelect(m)"
+          [class.selected]="member === m" [(ngModel)]="teamMembers" name="teamMembers" ngDefaultControl>             
+              <ion-col col-11>
+                  <p>{{ m.username }}</p>
+              </ion-col>
+              <ion-col col-1 *ngIf="edit">
+                <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
+              </ion-col>
+              <ion-col col-1 *ngIf="!edit">
+                <ion-icon name="arrow-dropright-circle"></ion-icon>
+              </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
+    </div>
+  </form>
+  </div>
+
+  <div>
+  <form>
+  
+  </form>
+  </div>
+
 </ion-content>

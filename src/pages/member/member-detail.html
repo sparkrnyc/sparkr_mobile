@@ -63,27 +63,26 @@
           </ion-row>
     
           <div *ngIf="team!=null">
+
             <ion-row>
-              <ion-col>
+              MY TEAM INFO
+            </ion-row>
+            <ion-row (click)="onTeamDetailSelect(team)">
+              <ion-col col-11>
                 <ion-row>
-                  MY TEAM INFO
+                  <ion-input type="text" name="teamname" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
                 </ion-row>
-                <ion-row>
-                  <ion-col>
-                    <ion-row>
-                      <ion-input type="text" name="teamname" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
-                    </ion-row>
-                    <ion-row>                    
-                      <ion-textarea rows="7"
-                        type="text" name="teamdescription" [(ngModel)]="team.description" [disabled]="!edit"></ion-textarea>
-                    </ion-row>
-                  </ion-col>
-                  
+                <ion-row>                    
+                  <ion-textarea rows="7" type="text" name="teamdescription" [(ngModel)]="team.description" [disabled]="!edit"></ion-textarea>
                 </ion-row>
               </ion-col>
+              <ion-col col-1>
+               
+                  <ion-icon name="arrow-dropright-circle"></ion-icon>
+
+              </ion-col>
             </ion-row>
-      
-   
+
             <ion-row>
               <ion-col col-10>
                 TEAMMATES

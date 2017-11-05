@@ -11,10 +11,12 @@ import { DataServiceProvider } from '../../providers/data/data-service';
 
 export class TeamDetailFormComponent {
   @Input() team: TeamModel = null;
+  @Input() teamMembers: TeamModel[] = null;
   @Input() edit: boolean = null;
 
   constructor(public dataService: DataServiceProvider
              ) {
+    console.log("teamMembers", this.teamMembers);
     if(this.team==null || this.team.id==null){
       // create new project
     } else {

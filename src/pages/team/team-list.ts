@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Platform, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DataServiceProvider } from '../../providers/data/data-service';
 import { TeamDetailPage } from './team-detail';
 
@@ -15,7 +15,8 @@ export class TeamListPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public dataService: DataServiceProvider) {
+              public dataService: DataServiceProvider,
+              public platform: Platform) {
 
     this.dataService.getTeams()
       .then( (teams) => {
@@ -25,16 +26,15 @@ export class TeamListPage {
         console.log("error: "+ error);
       });
   }
-  onSelect(item) {
-    this.navCtrl.push(TeamDetailPage, { team: item });
+
+  onTeamDetailClicked(team){
+    console.log("onTeamDetailClicked");
+    this.navCtrl.push(TeamDetailPage, { team: team });  
   }
   onJoinTeamClicked(team){
     console.log("onJoinTeamClicked");
   }
   addTeamClicked(){
-    this.navCtrl.push(TeamDetailPage, { project: null });    
-  }
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TeamListPage');
+    this.navCtrl.push(TeamDetailPage, { team: null });    
   }
 }

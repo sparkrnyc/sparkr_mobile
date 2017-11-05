@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, MenuController,
          LoadingController, ModalController, AlertController } from 'ionic-angular';
 import { MemberModel } from '../../components/member-model';
 import { TeamModel } from '../../components/team-model';
+import { TeamDetailPage } from '../team/team-detail';
 import { DataServiceProvider } from '../../providers/data/data-service';
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
@@ -13,11 +14,11 @@ import { AuthServiceProvider } from '../../providers/auth/auth-service';
 })
 
 export class MemberDetailPage {
-
-  member: MemberModel = null;
+  
   roleOptions: string[] = [
     "Developer", "Designer", "Marketer", "Business"
-    ]
+    ];
+  member: MemberModel = null;
   team: TeamModel = null;
   members: MemberModel[] = new Array<MemberModel>();
   edit: boolean = null;
@@ -38,15 +39,20 @@ export class MemberDetailPage {
     // if a user is logged in
     var currentUser = authService.currentUser();  
 
-    if(this.member==null && currentUser!=null) {
+    if(this.member==null && currentUser==null) {
+      // should never happen
+    } else if(this.member==null && currentUser!=null) {
       // currentUser member
       this.member = currentUser;
+
     } else {
       // non-currentuser member
-      if(this.member!=null){
-        this.loadTeam();
-      }
+      
     }
+    if(this.member!=null){
+      this.loadTeam();
+    }
+
   }
 
   onSaveEditButtonClicked(toggle){
@@ -100,19 +106,17 @@ export class MemberDetailPage {
   }
 
   loadTeam() {
-    this.dataService.getTeamByMemberId(this.member.id)
-    .then( (t) => {
-      console.log("TeamFound: ",t);
-      this.team = t;
-      if(this.team != null){
-        this.dataService.getMembersByIds(this.team.members)
-        .then( (members) => {
-          this.members = members;
-        },
-        (error) => {
-          console.log("error: "+ error);
+    console.log("loadTeam()");
+    this.dataService.getTeams()
+    .then( (teams) => {
+      console.log("TeamsFound: ",teams);
+      teams.forEach( (t) => {
+        t.members.forEach( (mid) => {
+          if(mid==this.member.id){
+            this.team = t;
+          }
         });
-      }
+      });
     },
     (error) => {
       console.log("error: "+ error);
@@ -128,17 +132,14 @@ export class MemberDetailPage {
     console.log("Reload Member");
   }
 
+  onTeamDetailSelect(team){
+    var navLength = this.navCtrl.length();   
+    this.navCtrl.remove(0, navLength-1);   
+    this.navCtrl.setRoot(TeamDetailPage, { 'team' : team });  
+  }
+
   onMemberSelect(member){
     this.navCtrl.push(MemberDetailPage, { member: member });
-  }
-  ionViewCanEnter() {
-    console.log("ionViewCanEnter.team", this.team);
-  }
-  ionViewDidLoad() { 
-    console.log("ionViewDidLoad.team", this.team);
-  }
-  ionViewDidEnter() {
-    console.log("ionViewDidEnter.team", this.team)
   }
   
 }
