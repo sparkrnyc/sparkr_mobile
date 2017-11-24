@@ -20,30 +20,40 @@
           <!-- see ./theme/variables.css 
             // MemberDetail margins override -->
           <ion-row>
-            <ion-col text-left col-5>
-              <!-- NB "ion-img"-tag does not load on first load after login, "img"-tag does -->
-              <img width="110" height="110" src="{{ member.thumbnail }}">
+            <ion-col text-left col-4>
+              <ion-row>
+                <!-- NB "ion-img"-tag does not load on first load after login, "img"-tag does -->
+                <img width="110" height="110" src="{{ member.thumbnail }}">
+              </ion-row>
+              <ion-row>
+                <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
+              </ion-row>
             </ion-col>
-            <ion-col col-7>
+            <ion-col col-8>
+              <!--
               <ion-row>
                 <ion-label for="id" stacked>Id</ion-label>
                 <ion-input type="text" name="id" [(ngModel)]="member.id" [disabled]="true"></ion-input>
               </ion-row>
+              -->
               <ion-row>
                 <ion-label for="name" stacked>Username</ion-label>  
                 <ion-input type="text" name="username" [(ngModel)]="member.username" [disabled]="true"></ion-input>
               </ion-row>
+
+              <!-- TODO Note: for some reason, when placing Role below other editable fields, makes role popup 
+                whenever you click any other editable input field -->
+              <ion-row>
+                <ion-label>Role</ion-label>
+                <!--<ion-input *ngIf="!edit" type="text" name="role" [(ngModel)]="member.role" [disabled]="true"></ion-input>-->
+                <ion-select placeholder="Select..." [(ngModel)]="member.role" name="role" [disabled]="!edit">
+                  <ion-option *ngFor="let roleOption of roleOptions" [value]="roleOption" [selected]="roleOption==member.role">{{roleOption}}</ion-option>
+                </ion-select>
+              </ion-row>
+
               <ion-row>
                 <ion-label for="name" stacked>Name</ion-label>  
                 <ion-input type="text" name="name" [(ngModel)]="member.name" [disabled]="!edit"></ion-input>
-              </ion-row>
-              <ion-row>
-                <ion-label>Role</ion-label>
-                <ion-input *ngIf="!edit" type="text" name="role" [(ngModel)]="member.role" [disabled]="!edit"></ion-input>
-
-                <ion-select *ngIf="edit" placeholder="Select..." [(ngModel)]="member.role" name="role">
-                  <ion-option *ngFor="let roleOption of roleOptions" [value]="roleOption" [selected]="roleOption==member.role">{{roleOption}}</ion-option>
-                </ion-select>
               </ion-row>
               <ion-row>
                 <ion-label for="college" stacked>College</ion-label>  
@@ -54,73 +64,120 @@
     
           <ion-row>
             <ion-col col-6 class="item middle-buttons" >
-                  <button class="item button-styled" ion-button block outline>
-                      <ion-icon name="add-circle" style="padding-right: 8px" (click)="inviteClicked()"></ion-icon>
-                      Invite
-                  </button>
+              <button *ngIf="canInvite" class="item button-styled" ion-button block outline (click)="inviteClicked()">
+                  <ion-icon name="add-circle" style="padding-right: 8px" ></ion-icon>
+                  Invite
+              </button>
             </ion-col>
-            <ion-col col-6 class="item middle-buttons"></ion-col>
+            <ion-col col-6 class="item middle-buttons">
+                
+            </ion-col>
           </ion-row>
     
-          <div *ngIf="team!=null">
-
+          <!-- for now when no team enable find/create team -->
+          <!-- this allows to send multiple join requests, once the first team accepts, other requests are lost -->
+          <div *ngIf="team==null">
             <ion-row>
-              MY TEAM INFO
-            </ion-row>
-            <ion-row (click)="onTeamDetailSelect(team)">
-              <ion-col col-11>
-                <ion-row>
-                  <ion-input type="text" name="teamname" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
-                </ion-row>
-                <ion-row>                    
-                  <ion-textarea rows="7" type="text" name="teamdescription" [(ngModel)]="team.description" [disabled]="!edit"></ion-textarea>
-                </ion-row>
-              </ion-col>
-              <ion-col col-1>
-               
-                  <ion-icon name="arrow-dropright-circle"></ion-icon>
-
-              </ion-col>
-            </ion-row>
-
-            <ion-row>
-              <ion-col col-10>
-                TEAMMATES
-              </ion-col>
-              <ion-col col-2>
-                <button (click)="addTeamClicked()">
-                  <ion-icon name="add"></ion-icon>
+              <ion-col col-6 class="item middle-buttons" >
+                <button class="item button-styled" ion-button block outline (click)="onFindTeamButtonClicked()">
+                    <ion-icon style="padding-right: 8px"></ion-icon>
+                    Find Team
                 </button>
               </ion-col>
-            </ion-row>
-
-            <ion-list>
-              <ion-item *ngFor="let m of members"
-                  (click)="onMemberSelect(m)"
-                  [class.selected]="member === m">
-                <ion-row>
-                    <ion-col col-11>
-                        <p>{{ m.firstname }} {{ m.lastname }}</p>
-                    </ion-col>
-                  <ion-col col-1>
-                      <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
-                  </ion-col>
-                </ion-row>
-              </ion-item>
-            </ion-list>          
-      
-            <ion-row>
-              <ion-col>
-                <ion-row>NOW RECRUITING</ion-row>
+              <ion-col col-6 class="item middle-buttons">
+                <button class="item button-styled" ion-button block outline (click)="onCreateTeamButtonClicked()">
+                    <ion-icon style="padding-right: 8px" ></ion-icon>
+                    Create Team
+                </button>
               </ion-col>
             </ion-row>
           </div>
 
-          <ion-row>
-            <ion-col>          
-                <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
-            </ion-col>
-          </ion-row>
+          <!-- for now once you have a team disable pending requests -->
+          <div *ngIf="team==null && (requests!=null && requests.length>0)">
+            <ion-item>
+              <ion-label for="requests" stacked>Pending Requests</ion-label>   
+            </ion-item>
+            <ion-item> 
+              <ion-row *ngFor="let r of requests"
+                 [(ngModel)]="requests" name="requests" ngDefaultControl>             
+                <ion-col>
+                  <ion-row><h3>{{ r.requestStatus }} {{ r.requestType }} request for {{ r.team.name }}</h3></ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-item>
+          </div>
+
+          <div *ngIf="team!=null">
+
+            <div>
+              <ion-row>
+                MY TEAM INFO
+              </ion-row>
+              <ion-row (click)="onTeamDetailSelect(team)">
+                <ion-col col-11>
+                  <ion-row>
+                    <ion-input type="text" name="teamname" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
+                  </ion-row>
+                  <ion-row>                    
+                    <ion-textarea type="text" name="teamdescription" [(ngModel)]="team.description" [disabled]="!edit"></ion-textarea>
+                  </ion-row>
+                </ion-col>
+                <ion-col col-1>
+                  <ion-icon name="arrow-dropright-circle"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </div>
+
+            <div *ngIf="teamMates.length!=0">
+              <ion-row>
+                <ion-col col-10>
+                  TEAMMATES
+                </ion-col>
+                <ion-col col-2>
+                  <button (click)="addTeamClicked()">
+                    <ion-icon name="add"></ion-icon>
+                  </button>
+                </ion-col>
+              </ion-row>
+              <ion-list>
+                <ion-item *ngFor="let m of members"
+                    (click)="onMemberSelect(m)"
+                    [class.selected]="member === m"
+                    [(ngModel)]="members" >
+                  <ion-row>
+                      <ion-col col-11>
+                          <p>{{ m.firstname }} {{ m.lastname }}</p>
+                      </ion-col>
+                    <ion-col col-1>
+                        <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                </ion-item>
+              </ion-list> 
+            </div>
+
+            <div *ngIf="inviterequests!=null">
+              <ion-row>
+                <ion-col>
+                  <ion-row>PENDING REQUESTS</ion-row>
+                </ion-col>
+              </ion-row>
+              <ion-list>
+                <ion-item *ngFor="let r of inviterequests">
+                  <ion-row>
+                    <ion-col col-11>
+                      <div>{{ r.requestStatus }} {{ r.requestType }} request</div>
+                      <div>waiting for {{(r.requestType=="invite") ? "teamOwner": ""}} {{(r.requestType=="join") ? r.member.username : ""}} to accept</div>
+                    </ion-col>
+                    <ion-col col-1>
+                      <ion-icon name="arrow-dropright-circle"></ion-icon>
+                    </ion-col>
+                  </ion-row>
+                </ion-item>               
+              </ion-list> 
+            </div>
+          </div>
 
         </ion-grid>
       </form>

@@ -16,10 +16,12 @@
   <div>
   <form>
     <ion-list>
+      <!--
       <ion-item>
         <ion-label for="id" stacked>id</ion-label>
         <ion-input type="text" name="id" [(ngModel)]="team.id" [disabled]="true"></ion-input>
       </ion-item>
+      -->
       <ion-item>
         <ion-label for="name" stacked>name</ion-label>
         <ion-input type="text" name="name" [(ngModel)]="team.name" [disabled]="!edit"></ion-input>
@@ -28,6 +30,7 @@
         <ion-label for="description" stacked>description</ion-label>
         <ion-input type="text" name="description" [(ngModel)]="team.description" [disabled]="!edit"></ion-input>
       </ion-item>
+
       <ion-item>
         <ion-label for="teamMembers" stacked>members</ion-label> 
         <button ion-button icon-only clear item-right (click)="addMemberClicked(team.id)">
@@ -41,7 +44,7 @@
               <ion-col col-11>
                   <p>{{ m.username }}</p>
               </ion-col>
-              <ion-col col-1 *ngIf="edit">
+              <ion-col col-1 *ngIf="edit && !isOwner">
                 <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
               </ion-col>
               <ion-col col-1 *ngIf="!edit">
@@ -49,17 +52,40 @@
               </ion-col>
         </ion-row>
       </ion-item>
+
+      <ion-item>
+        <ion-label for="requests" stacked>pending requests</ion-label>   
+      </ion-item>
+      <ion-item> 
+        <ion-row *ngFor="let r of requests"
+           [(ngModel)]="requests" name="requests" ngDefaultControl>             
+          <ion-col>
+            <ion-row><h3>{{ r.member.name }} ({{ r.member.role }}),</h3></ion-row>
+            <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
+            <ion-row  *ngIf="isOwner">
+              ACCEPT
+            </ion-row>
+          </ion-col>
+         
+        </ion-row>
+      </ion-item>
+
+
     </ion-list>
-    <div padding>
-      <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
+
+    <div>
+      <ion-row>
+        <ion-col col-3 *ngIf="isOwner">
+        <button ion-button color="primary" (click)="onSaveEditButtonClicked(!edit)">{{edit? "save" : "edit"}}</button>
+        </ion-col>
+        <ion-col col-3 *ngIf="canJoin">
+        <button ion-button color="primary" (click)="onJoinTeamButtonClicked()">JOIN</button>
+        </ion-col>
+      </ion-row>
     </div>
+
   </form>
   </div>
 
-  <div>
-  <form>
-  
-  </form>
-  </div>
 
 </ion-content>

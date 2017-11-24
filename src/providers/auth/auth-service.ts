@@ -107,6 +107,8 @@ export class AuthServiceProvider {
     if(this.isLoggedIn() && this.loggedInUser){
       console.log("currentUser,loggedInUser: ", this.loggedInUser);
       return this.loggedInUser;
+    }else{
+      return null;
     }
   }
 
