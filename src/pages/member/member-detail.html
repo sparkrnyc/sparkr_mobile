@@ -157,18 +157,19 @@
               </ion-list> 
             </div>
 
-            <div *ngIf="inviterequests!=null">
+            <div *ngIf="inviterequests!=null && inviterequests.length>0">
               <ion-row>
                 <ion-col>
                   <ion-row>PENDING REQUESTS</ion-row>
                 </ion-col>
               </ion-row>
               <ion-list>
-                <ion-item *ngFor="let r of inviterequests">
+                <ion-item *ngFor="let r of inviterequests"
+                        (click)="onTeamDetailSelect(team)">
                   <ion-row>
                     <ion-col col-11>
-                      <div>{{ r.requestStatus }} {{ r.requestType }} request</div>
-                      <div>waiting for {{(r.requestType=="invite") ? "teamOwner": ""}} {{(r.requestType=="join") ? r.member.username : ""}} to accept</div>
+                      <div>{{ r.requestStatus }} {{ r.requestType }} request by {{r.member.username}}</div>
+                      <div>waiting for {{ (r.requestType=="invite") ? r.member.username: ""}} {{ (r.requestType=="join") ? "teamOwner" : "" }} to accept</div>
                     </ion-col>
                     <ion-col col-1>
                       <ion-icon name="arrow-dropright-circle"></ion-icon>

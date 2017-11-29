@@ -29,12 +29,14 @@ export class MemberDetailPage {
   
   edit: boolean = null;
   isCurrentUser: boolean = false;
-  canInvite: boolean = true;
   // join another team requests
   jointeamrequests: RequestModel[] = null;
   // invite to join this member's team
   inviterequests: RequestModel[] = null;
   request: RequestModel = null;
+
+  // permissions
+  canInvite: boolean = true;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -47,7 +49,6 @@ export class MemberDetailPage {
             ) {
 
     this.member = navParams.get("member");
-
     this.request = navParams.get("request");
 
     menuCtrl.enable(true);
@@ -90,9 +91,7 @@ export class MemberDetailPage {
       // for now: if memberDetail.hasTeam you cannot invite, member can only join 1 team
       // determined in this.loadTeam() method
       // if currentUser.team is same as memberDetail.team you cannot invite
-
-    }
-    
+    }  
   }
 
   onSaveEditButtonClicked(toggle){
@@ -155,7 +154,7 @@ export class MemberDetailPage {
 
   inviteClicked(){
     console.log("inviteClicked");
-
+    
   }
 
   loadTeam() {
@@ -201,10 +200,30 @@ export class MemberDetailPage {
         // invites are initiated by the teamOwner to non-members to join the team
         this.dataService.getRequestsForTeam(this.team.id)
         .then( (inviterequests) => {
-          console.log("inviterequests",inviterequests);
-          // remove or check for i
-          this.inviterequests = inviterequests;
-         },
+          var tmpInviterequests = inviterequests;
+          var removeInviteRequestsForMembers = [];
+          tmpInviterequests.forEach((req)=>{
+            if(req.requestStatus=='accepted'){
+              // for an accepted request
+              // remove both pending and accepted requests
+              removeInviteRequestsForMembers.push(req.member.id);             
+            }
+          });
+          // remove requests for members
+          this.inviterequests = new Array<RequestModel>();
+          tmpInviterequests.forEach( (req) => {
+            var remove = false;
+            removeInviteRequestsForMembers.forEach( (memberId) => {
+              if(req.member.id == memberId){
+                remove=true;
+              }
+            });
+            if(!remove){
+              this.inviterequests.push(req);
+            }
+          });
+            
+        },
         (error) => {
           console.log("error: "+ error);
         });
@@ -216,13 +235,28 @@ export class MemberDetailPage {
         // check requests if there's no team
         this.dataService.getRequestsByMemberId(this.member.id)
         .then( (jointeamrequests) => {
+          console.log("jointeamrequests for member: ",this.member, jointeamrequests);
           this.jointeamrequests = jointeamrequests;
           // if currentTeam already created a request
           this.jointeamrequests.forEach((req)=>{
-            if( req.team.id == this.request.team.id ){
+
+            if( (this.request!=null) && (req.team.id == this.request.team.id) ){
               console.log("This user has already a pending request from this team");
               this.canInvite = false;
             }
+
+            if(req.requestStatus=='accepted'){
+              // for an accepted request
+              // remove both pending and accepted requests
+              for(var i=0; i<this.jointeamrequests.length; i++){
+                var req2: RequestModel = this.jointeamrequests[i];
+                if(req.member.id==req2.member.id){
+                  var deleted = this.jointeamrequests.splice(i, 1);
+                  console.log("deletedRequest", deleted);
+                }
+              }
+            }
+
           });
 
         },

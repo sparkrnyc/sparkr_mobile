@@ -22,8 +22,12 @@ export class TeamDetailPage {
   team: TeamModel = null;
   teamMembers: MemberModel[] = new Array<MemberModel>();
   requests: RequestModel[] = null;
+  // state
   edit: boolean = false;
+  areThereRequestsByCurrentUser: boolean = false;
+  // permissions
   isOwner: boolean = false;
+  isMember: boolean = false;
   canJoin: boolean = false;
 
   constructor(public navCtrl: NavController,
@@ -48,68 +52,56 @@ export class TeamDetailPage {
                           );
       // add currentuser as default member and teamOwner
       this.team.members = [ this.authService.loggedInUser.id ];
-      this.team.teamOwnerId = this.authService.loggedInUser.id;
-      this.isOwner=true;
-      this.edit = true;
-      
+      this.team.teamOwnerId = this.authService.loggedInUser.id;   
     }else{
       // existing team
       console.log("member with existing team");
-      
-      // 
+    }
+
+    this.loadTeamMembers();
+    this.loadOpenRequestsForTeam(); 
+
+    if(this.team==null){
+      this.isOwner=true;
+      this.isMember=true;
+      this.edit = true;
+    }else{
+      // isOwner, isMember, canJoin, areThereOpenRequestByCurrentUser
       this.checkPermissions();
     }
-    // 
-    this.displayMembersNames();
-    this.loadRequests();
   }
 
-  displayMembersNames(){
+  loadTeamMembers(){
 
-    console.log("displayMembersNames");
-    console.log("this.selectedTeam.members:", this.team.members);
+    console.log("loadTeamMembers");
+    //console.log("this.selectedTeam.members:", this.team.members);
+
     if(this.team.members==null || this.team.members.length==0){
       console.log("No members found");
-
-    }else if(this.team.members.length==1){
-      
+      this.teamMembers = new Array<MemberModel>();
+    }else if(this.team.members.length==1){    
       console.log("1 member");
       this.dataService.getMemberById(this.team.members[0])
       .then( (m) => {
+        this.teamMembers = new Array<MemberModel>();
         this.teamMembers.push(m);
-        console.log("teamMembers",this.teamMembers);
+        //console.log("teamMembers",this.teamMembers);
+        this.checkPermissions();
       },
       (error) => {
         console.log("error: " + error);
-      });
-      
+      });     
     }else{
-
-      console.log("More than 1 member, gives error");
-      // ERROR
+      console.log("More than 1 member");
       this.dataService.getMembersByIds(this.team.members)
       .then( (members) => {
         this.teamMembers = members;
+        this.checkPermissions();
       },
       (error) => {
         console.log("error: " + error);
       });
     }
-
-  }
-
-  loadRequests(){
-    console.log("loadRequests");
-    this.requests = new Array<RequestModel>();
-    this.dataService.getRequestsForTeam(this.team.id)
-    .then( (requests: RequestModel[]) => {
-      requests.forEach((request)=>{
-        this.requests.push(request);
-      });  
-    },
-    (error) => {
-      console.log("error: "+ error);
-    });
   }
 
   onSaveEditButtonClicked(toggle){
@@ -162,7 +154,7 @@ export class TeamDetailPage {
     if(navLength>0){
       this.navCtrl.remove(0, navLength-1);
     }
-    console.log("navLength", navLength);
+    //console.log("navLength", navLength);
     this.navCtrl.setRoot(MemberDetailPage, { 'member' : member });
   }
 
@@ -179,7 +171,7 @@ export class TeamDetailPage {
       );
     this.dataService.createRequest(request)
     .then( (request) => {
-      console.log("new request:", request);
+      //console.log("new request:", request);
       this.canJoin=false;
       this.requests.push(request);
     },
@@ -187,32 +179,111 @@ export class TeamDetailPage {
       console.log("error: "+ error);
     }); 
   }  
+
+  onAcceptRequestClicked(request: RequestModel) {
+    console.log("onAcceptRequestClicked", request);
+    // when a request is accepted to 2 things:
+    // only teamOwner can update, but the Accept button
+    // is only enabled for a teamOwner, so this authorization
+    // is already checked.
+
+    // 1. add member to team 
+    this.team.members.push(request.member.id);
+    this.dataService.updateTeam(this.team) 
+    .then( (updatedTeam) => {
+      //console.log("updatedTeam:", updatedTeam);
+      this.team = updatedTeam;
+      // reload teamMembers
+      this.loadTeamMembers();
+
+      // 2. update request status to accepted 
+      request.team = this.team;
+      request.requestStatus = "accepted";
+      this.dataService.createRequest(request)
+      .then( (newRequest) => {
+        //console.log("newRequest:", newRequest);
+        // 3. remove requests with status accepted
+        //    or re-load requests for this team
+        this.loadOpenRequestsForTeam();
+        
+      },
+      (error) => {
+        console.log("error: "+ error);
+      });
+
+    },
+    (error) => {
+      console.log("error: "+ error);
+    });
+  } 
+
+  onCancelRequestClicked(request: RequestModel){
+    console.log("onCancelRequestClicked");
+
+  }
+
+
+  loadOpenRequestsForTeam(){
+    console.log("loadOpenRequestsForTeam:", this.team);
+
+    this.requests = new Array<RequestModel>();
+    this.dataService.getRequestsForTeam(this.team.id)
+    .then( (requests: RequestModel[]) => {
+
+      var tmpRequests = requests.slice(0);
+      // remove all requests for memberId+teamId if 'accepted'  
+      requests.forEach( (req1)=>{
+        if(req1.member.id==this.authService.loggedInUser.id){
+          this.areThereRequestsByCurrentUser = true;
+        }
+        if(req1.requestStatus=='accepted'){
+          // for the accepted request
+          var acceptedMemberId = req1.member.id;
+          for(var i1=0; i1<tmpRequests.length; i1++){
+            var req2: RequestModel = tmpRequests[i1];
+            if(acceptedMemberId==req2.member.id){
+              tmpRequests.splice(i1, 1);
+              i1-=1;
+            }
+          }
+        }
+      });
+      this.requests = tmpRequests;
+      this.checkPermissions();
+    },
+    (error) => {
+      console.log("error: "+ error);
+    });
+  }
+
   
   checkPermissions(){
-    // EDIT right    this.edit = false;
-    // only teamOwner can edit
+    console.log("checkPermissions");
+
+    // isOwner?
     if(this.team.teamOwnerId==this.authService.loggedInUser.id){
       this.isOwner=true;
     }else{
       this.isOwner=false;
     }
-    console.log("isOwner:", this.isOwner);
 
-    // JOIN rights
-    // only when currentUser is not part of a team already, can he join a team
-    // implicitly, if currentUser is part of the current team, then he will already have a team
-    this.dataService.getTeamByMemberId(this.authService.loggedInUser.id)
-    .then( (team) => {
-      if(team){
-        this.canJoin=false;
-      }else{
-        this.canJoin=true;
+    // isMember?
+    this.teamMembers.forEach( (m) => {
+      if(this.authService.loggedInUser.id==m.id){
+        this.isMember = true;
       }
-      console.log("canJoin:", this.canJoin);
-    },
-    (error) => {
-      console.log("error: "+ error);
-    }); 
+    });
+
+    // if currentUser has no Requests AND is not owner AND is not member
+    // then canJoin
+    this.canJoin=false;
+    //console.log("this.isOwner",this.isOwner);
+    //console.log("this.isMember",this.isMember);
+    //console.log("this.areThereRequestsByCurrentUser",this.areThereRequestsByCurrentUser);
+    if(!this.areThereRequestsByCurrentUser && !this.isOwner && !this.isMember){
+      this.canJoin = true;
+      //console.log("this.canJoin",this.canJoin);
+    }
     
   }
 }

@@ -53,8 +53,10 @@ export class LoginPage {
     .then(m => {
       if(this.authService.isLoggedIn){
         console.log('user successfully logged in');
+        this.syncRequests();
         loader.dismissAll();
         this.navCtrl.setRoot(TabsPage);
+        
       }
     }, (err) => {
       console.log("Login error:", err);
@@ -71,5 +73,13 @@ export class LoginPage {
     });
     signupModal.present();
 	}
+
+  syncRequests(){
+    // accepted requests have 2 requests in the database:
+    // one with status 'pending' and one with 'accepted'
+    // cause ot $owner ACL rights
+    // so remove pending requests if it was accepted for currentUser who is owner
+    
+  }
 
 }

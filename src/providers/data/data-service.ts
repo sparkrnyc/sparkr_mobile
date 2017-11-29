@@ -18,6 +18,7 @@ export class DataServiceProvider {
   private APIKEY = '05359034-9545-4dc9-975c-77cd87097aab';
 
   public API_BASE_URL = 'https://sparkrapi.mybluemix.net/api';
+  public API_BASE_URL1 = 'http://localhost:3000/api';
   public API_MEMBER: string = this.API_BASE_URL+'/Members';
   public API_MEMBER_LOGIN: string = this.API_BASE_URL+'/Members/login';
   public API_TEAM: string = this.API_BASE_URL+'/Teams';
@@ -144,23 +145,24 @@ export class DataServiceProvider {
         "id": team.id,
         "name": team.name,
         "description": team.description,
-        "members": team.members.join(),
-        "invitations": team.invitations.join(),
+        "members": team.members,
+        "invitations": team.invitations,
         "teamOwnerId": team.teamOwnerId
       });
 
       var headers = {
         headers: new HttpHeaders()
-          .set('accept', 'application/json')
-          .set('content-type', 'application/json')
-          .set('x-ibm-client-id', this.APIKEY)
+          .set('Accept', 'application/json')
+          .set('Content-Type', 'application/json')
+          //.set('x-ibm-client-id', this.APIKEY)
       };
 
       var url = this.API_TEAM+"/"+ team.id+"?access_token="+this.access_token;
+      console.log("updateTeamURL: ", url);
 
       this.http.put(url, body, headers)
       .subscribe( t => {
-        console.log("updateTeam.t:", t);
+        console.log("updatedTeam.t:", t);
         var team = new TeamModel(
           t['id'],
           t['name'],
@@ -493,10 +495,9 @@ export class DataServiceProvider {
       
       console.log("getMembersByIds.qry: ", qry);
       this.http.get(qry)
-      .subscribe( response => {
-        let memberArr = response['data'];
-        let membersOutput: MemberModel[] = [];
-        memberArr.forEach(m => {
+      .subscribe( (response: Array<any>) => {
+        var membersOutput: MemberModel[] = [];
+        response.forEach(m => {
           let member = new MemberModel(
             m['id'],
             m['loginType'],
@@ -567,6 +568,46 @@ export class DataServiceProvider {
     });
   }
 
+  public updateRequest(request: RequestModel): Promise<RequestModel> {
+    return new Promise(resolve => {
+
+      var body = JSON.stringify({
+        "id": request.id,
+        "member": request.member,
+        "team": request.team,
+        "requestType": request.requestType,
+        "requestStatus": request.requestStatus,
+        "dateCreated": request.dateCreated
+      });
+
+      console.log("updateRequest.body", body);
+
+      var headers = {
+        headers: new HttpHeaders()
+          .set('accept', 'application/json')
+          .set('content-type', 'application/json')
+          //.set('x-ibm-client-id', this.APIKEY)
+      };
+
+      var url = this.API_REQUEST+"/"+request.id+"?access_token="+this.access_token;
+
+      this.http.put(url, body, headers)
+      .subscribe( r => {
+        var request = new RequestModel(
+          r['id'],
+          r['member'],
+          r['team'],
+          r['requestType'],
+          r['requestStatus'],
+          r['dateCreated']
+        );
+        resolve(request);
+
+      }, err => {
+        console.log(err);
+      });
+    });
+  }
 
   public getRequests(): Promise<RequestModel[]> {
     return new Promise((resolve,reject) => {
@@ -595,12 +636,11 @@ export class DataServiceProvider {
 
   public getRequestsForTeam(teamId: string): Promise<RequestModel[]> {
     return new Promise((resolve,reject) => {
-
+      console.log("getRequestsForTeam("+teamId+")");
       var url = this.API_REQUEST+"?filter[where][team.id]="+teamId;
 
       this.http.get(url)
       .subscribe( (response: Array<any>) => {
-        console.log("getRequests()", response);
         var requests = [];
         response.forEach(r => {
           var request = new RequestModel(

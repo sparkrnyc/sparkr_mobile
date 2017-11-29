@@ -53,23 +53,25 @@
         </ion-row>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="requests!=null && requests.length>0">
         <ion-label for="requests" stacked>pending requests</ion-label>   
       </ion-item>
-      <ion-item> 
+      
         <ion-row *ngFor="let r of requests"
            [(ngModel)]="requests" name="requests" ngDefaultControl>             
           <ion-col>
             <ion-row><h3>{{ r.member.name }} ({{ r.member.role }}),</h3></ion-row>
             <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
             <ion-row  *ngIf="isOwner">
-              ACCEPT
+              <ion-col>
+                <button ion-button color="primary" (click)="onAcceptRequestClicked(r)">Accept</button>
+              </ion-col>
+              <ion-col>
+                <button ion-button color="primary" (click)="onCancelRequestClicked(r)">Cancel</button>
+              </ion-col>
             </ion-row>
           </ion-col>
-         
         </ion-row>
-      </ion-item>
-
 
     </ion-list>
 
