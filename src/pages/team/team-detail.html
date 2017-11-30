@@ -60,7 +60,7 @@
         <ion-row *ngFor="let r of requests"
            [(ngModel)]="requests" name="requests" ngDefaultControl>             
           <ion-col>
-            <ion-row><h3>{{ r.member.name }} ({{ r.member.role }}),</h3></ion-row>
+            <ion-row><h3>{{ r.member.name }} ({{ r.member.role }})</h3></ion-row>
             <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
             <ion-row  *ngIf="isOwner">
               <ion-col>

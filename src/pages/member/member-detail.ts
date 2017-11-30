@@ -152,10 +152,6 @@ export class MemberDetailPage {
     this.navCtrl.setRoot(TeamDetailPage, { 'team' : null, 'member' : this.member });
   }
 
-  removeMemberClicked(){
-    console.log("removeMemberClicked");
-  }
-
   inviteClicked(){
     console.log("inviteClicked");
   }
@@ -177,7 +173,7 @@ export class MemberDetailPage {
             this.dataService.getMemberById(this.team.members[0])
             .then( (teamMate: MemberModel) => {
               console.log("teamMate",teamMate);
-              //this.teamMates = this.members.push(teamMate);
+              this.teamMates.push(teamMate);
              },
             (error) => {
               console.log("error: "+ error);
@@ -288,8 +284,12 @@ export class MemberDetailPage {
     this.navCtrl.setRoot(TeamDetailPage, { 'team' : team });  
   }
 
-  onMemberSelect(member){
-    this.navCtrl.push(MemberDetailPage, { member: member });
+  onTeamMateSelect(teamMate){
+    this.navCtrl.push(MemberDetailPage, { member: teamMate });
+  }
+
+  removeTeamMateClicked(teamMate){
+    console.log("removeTeamMateClicked");
   }
   
 }

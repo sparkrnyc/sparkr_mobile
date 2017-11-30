@@ -481,6 +481,8 @@ export class DataServiceProvider {
 
 
   public getMembersByIds(ids: string[]): Promise<MemberModel[]> {
+    console.log("getMembersByIds", ids);
+    
     return new Promise(resolve => {
       //curl -g -X GET --header 'Accept: application/json' 
       // 'https://sparkrapi.mybluemix.net/api/Members?
