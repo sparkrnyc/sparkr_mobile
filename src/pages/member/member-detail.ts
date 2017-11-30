@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController,
+import { IonicPage, NavController, ViewController, NavParams, MenuController,
          LoadingController, ModalController, AlertController } from 'ionic-angular';
 
 import { MemberModel } from '../../components/member-model';
@@ -39,6 +39,7 @@ export class MemberDetailPage {
   canInvite: boolean = true;
 
   constructor(public navCtrl: NavController,
+              public viewCtrl: ViewController,
               public navParams: NavParams,
               public dataService: DataServiceProvider,
               public authService: AuthServiceProvider,
@@ -141,11 +142,14 @@ export class MemberDetailPage {
   }
 
   onFindTeamButtonClicked(){
+    console.log("onFindTeamButtonClicked");
     this.navCtrl.setRoot( TeamListPage );
   }
 
   onCreateTeamButtonClicked(){
-    this.navCtrl.push(TeamDetailPage, { 'team' : null, 'member' : this.member } );
+    console.log("onCreateTeamButtonClicked");
+    //this.navCtrl.push(TeamDetailPage, { 'team' : null, 'member' : this.member } );
+    this.navCtrl.setRoot(TeamDetailPage, { 'team' : null, 'member' : this.member });
   }
 
   removeMemberClicked(){
@@ -154,7 +158,6 @@ export class MemberDetailPage {
 
   inviteClicked(){
     console.log("inviteClicked");
-    
   }
 
   loadTeam() {

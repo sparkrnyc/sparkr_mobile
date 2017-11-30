@@ -25,6 +25,7 @@ export class TeamDetailPage {
   // state
   edit: boolean = false;
   areThereRequestsByCurrentUser: boolean = false;
+  createNewTeam: boolean = false;
   // permissions
   isOwner: boolean = false;
   isMember: boolean = false;
@@ -42,6 +43,7 @@ export class TeamDetailPage {
     // populate team
     if(this.team==null){
       // create new team
+      this.createNewTeam = true;
       this.team = new TeamModel(
                             null, 
                             null, 
@@ -52,7 +54,8 @@ export class TeamDetailPage {
                           );
       // add currentuser as default member and teamOwner
       this.team.members = [ this.authService.loggedInUser.id ];
-      this.team.teamOwnerId = this.authService.loggedInUser.id;   
+      this.team.teamOwnerId = this.authService.loggedInUser.id; 
+
     }else{
       // existing team
       console.log("member with existing team");
@@ -61,7 +64,7 @@ export class TeamDetailPage {
     this.loadTeamMembers();
     this.loadOpenRequestsForTeam(); 
 
-    if(this.team==null){
+    if(this.createNewTeam){
       this.isOwner=true;
       this.isMember=true;
       this.edit = true;
@@ -71,11 +74,10 @@ export class TeamDetailPage {
     }
   }
 
-  loadTeamMembers(){
 
+  loadTeamMembers(){
     console.log("loadTeamMembers");
     //console.log("this.selectedTeam.members:", this.team.members);
-
     if(this.team.members==null || this.team.members.length==0){
       console.log("No members found");
       this.teamMembers = new Array<MemberModel>();
@@ -104,19 +106,29 @@ export class TeamDetailPage {
     }
   }
 
+
   onSaveEditButtonClicked(toggle){
     if(this.edit==true){
       console.log("Team", this.team);
+      
       if(this.team.id==null){
         console.log("Create Team");
         this.dataService.createTeam(this.team)
         .then( (team) => {
           this.team = team;
-          this.viewCtrl.dismiss();
+          //this.viewCtrl.dismiss();
+          var member = null;
+          this.teamMembers.forEach( (m) => {
+            if(m.id==this.team.teamOwnerId){
+              member = m;
+              this.navCtrl.setRoot(MemberDetailPage, { 'member' : member });
+            }
+          });
         },
         (error) => {
           console.log("error: "+ error);
         }); 
+
       }else{
         console.log("Update Team");
         this.dataService.updateTeam(this.team)
@@ -127,7 +139,6 @@ export class TeamDetailPage {
           console.log("error: "+ error);
         }); 
       }
-      
 
     }else{
       console.log("Edit Team");
