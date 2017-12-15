@@ -33,7 +33,7 @@
 
       <ion-item>
         <ion-label for="teamMembers" stacked>members</ion-label> 
-        <button ion-button icon-only clear item-right (click)="addMemberClicked(team.id)">
+        <button *ngIf="canInvite" ion-button icon-only clear item-right (click)="addMemberClicked(team.id)" >
           <ion-icon name="add-circle"></ion-icon>
         </button>  
       </ion-item>
@@ -57,21 +57,21 @@
         <ion-label for="requests" stacked>pending requests</ion-label>   
       </ion-item>
       
-        <ion-row *ngFor="let r of requests"
-           [(ngModel)]="requests" name="requests" ngDefaultControl>             
-          <ion-col>
-            <ion-row><h3>{{ r.member.name }} ({{ r.member.role }})</h3></ion-row>
-            <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
-            <ion-row  *ngIf="isOwner">
-              <ion-col>
-                <button ion-button color="primary" (click)="onAcceptRequestClicked(r)">Accept</button>
-              </ion-col>
-              <ion-col>
-                <button ion-button color="primary" (click)="onCancelRequestClicked(r)">Cancel</button>
-              </ion-col>
-            </ion-row>
-          </ion-col>
-        </ion-row>
+      <ion-row *ngFor="let r of requests"
+         [(ngModel)]="requests" name="requests" ngDefaultControl>             
+        <ion-col>
+          <ion-row><h3>{{ r.member.name }} ({{ r.member.role }})</h3></ion-row>
+          <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
+          <ion-row *ngIf="(r.requestType=='invite' && r.requestStatus=='pending' && currentUser.id==r.member.id) || (r.requestType=='invite' && r.requestStatus=='accepted' && isOwner)">
+            <ion-col>
+              <button ion-button color="primary" (click)="onAcceptRequestClicked(r)">Accept</button>
+            </ion-col>
+            <ion-col >
+              <button ion-button color="primary" (click)="onCancelRequestClicked(r)">Cancel</button>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
 
     </ion-list>
 

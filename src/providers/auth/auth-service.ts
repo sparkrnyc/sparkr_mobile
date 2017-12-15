@@ -12,7 +12,7 @@ import { MemberModel } from '../../components/member-model';
 @Injectable()
 export class AuthServiceProvider {
 
-  loggedInUser: MemberModel = null;
+  private loggedInUser: MemberModel = null;
   
   constructor(public alertCtrl: AlertController,
               public http: HttpClient,
@@ -103,7 +103,7 @@ export class AuthServiceProvider {
     return;
   }
 
-  currentUser(): MemberModel {
+  getCurrentUser(): MemberModel {
     if(this.isLoggedIn() && this.loggedInUser){
       console.log("currentUser,loggedInUser: ", this.loggedInUser);
       return this.loggedInUser;

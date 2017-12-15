@@ -390,13 +390,18 @@ export class DataServiceProvider {
     });
   }
 
-  public getMembers(): Promise<Object> {
+  public getMembers(excludeId: string = null): Promise<MemberModel[]> {
     return new Promise(resolve => {
       this.http.get(this.API_MEMBER)
       .subscribe( (response: Array<any>) => {
         console.log("getMembers()", response);
         var members = [];
         response.forEach(m => {
+          if(excludeId){
+            if(m['id']==excludeId){
+              return;
+            }
+          }
           var member = new MemberModel(
             m['id'],
             m['loginType'],
@@ -547,7 +552,7 @@ export class DataServiceProvider {
         headers: new HttpHeaders()
           .set('accept', 'application/json')
           .set('content-type', 'application/json')
-          .set('x-ibm-client-id', this.APIKEY)
+          //.set('x-ibm-client-id', this.APIKEY)
       };
 
       var url = this.API_REQUEST+"?access_token="+this.access_token;

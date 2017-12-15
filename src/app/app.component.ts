@@ -29,7 +29,7 @@ export class MyApp implements OnInit {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      if(this.authService.currentUser()){
+      if(this.authService.getCurrentUser()){
           this.rootPage = TabsPage;
       }else{
           this.rootPage = LoginPage;

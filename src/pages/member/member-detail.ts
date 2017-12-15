@@ -23,6 +23,7 @@ export class MemberDetailPage {
   roleOptions: string[] = [
     "Developer", "Designer", "Marketer", "Business"
     ];
+  currentUser: MemberModel = null;
   member: MemberModel = null;
   team: TeamModel = null;
   teamMates: MemberModel[] = new Array<MemberModel>();
@@ -30,13 +31,14 @@ export class MemberDetailPage {
   edit: boolean = null;
   isCurrentUser: boolean = false;
   // join another team requests
-  jointeamrequests: RequestModel[] = null;
+  requests: RequestModel[] = null;
   // invite to join this member's team
-  inviterequests: RequestModel[] = null;
+  //inviterequests: RequestModel[] = null;
   request: RequestModel = null;
 
   // permissions
-  canInvite: boolean = true;
+  canBeInvited: boolean = true;
+  canAddTeam: boolean = false;
 
   constructor(public navCtrl: NavController,
               public viewCtrl: ViewController,
@@ -55,25 +57,34 @@ export class MemberDetailPage {
     menuCtrl.enable(true);
     
     // if a user is logged in
-    var currentUser = authService.currentUser();  
+    this.currentUser = this.authService.getCurrentUser(); 
 
-    if(this.member==null && currentUser==null){
-    // never happen because new users are created only via signup
-    }else if(this.member==null && currentUser!=null) {
-      // currentUser member, via homepage tab
-      this.isCurrentUser = true;
-      this.member = currentUser;
-      this.loadTeam();
-    }else if(this.member!=null && currentUser!=null) {
-      // currentuser member, via member link
-      if(this.member.id==currentUser.id){
+    if(this.member==null && this.currentUser==null){
+      // never happens because new users are created only via signup, 
+      // not via MemberDetail page
+    }else if(this.member==null && this.currentUser!=null) {
+      // this.member is currentuser, entered via homepage tab
+      this.member = this.currentUser;
+      if(this.member.id==this.currentUser.id){
         this.isCurrentUser = true;
+      }
+      this.canAddTeam = true;
+      this.loadTeam();
+    }else if(this.member!=null && this.currentUser!=null) {
+      // this.member is currentuser , entered via member link
+      if(this.member.id==this.currentUser.id){
+        this.isCurrentUser = true;
+        this.canAddTeam = true;
+      }else{
+        this.canAddTeam = false;
       }
       this.loadTeam();
     }else{
-      // non-currentuser via member link
+      // this.member is not currentuser, entered via member link
+      this.canAddTeam = false;
       this.loadTeam();
     }
+
 
     if(this.request){
       console.log("request:", this.request);
@@ -84,15 +95,8 @@ export class MemberDetailPage {
       }
     }
     
-    // canInvite
-    if(this.isCurrentUser){
-      // you cannot invite yourself
-      this.canInvite=false;
-    }else{
-      // for now: if memberDetail.hasTeam you cannot invite, member can only join 1 team
-      // determined in this.loadTeam() method
-      // if currentUser.team is same as memberDetail.team you cannot invite
-    }  
+    // checkpermissions
+    this.checkPermissions(); 
   }
 
   onSaveEditButtonClicked(toggle){
@@ -154,10 +158,32 @@ export class MemberDetailPage {
 
   inviteClicked(){
     console.log("inviteClicked");
+    if(this.request.team==null){
+      console.log("Error: a team is required to create an invite request. ");
+      return;
+    }
+    var request = new RequestModel(
+         null,
+         this.member,
+         this.request.team,
+         "invite",
+         "pending",
+         new Date()
+      );
+    this.dataService.createRequest(request)
+    .then( (request) => {
+      console.log("new request:", request);
+      this.requests.push(request);
+      this.navCtrl.setRoot(MemberDetailPage, { 'member' : this.currentUser });
+    },
+    (error) => {
+      console.log("error: "+ error);
+    }); 
   }
 
   loadTeam() {
-    console.log("getTeamByMemberId()", this.member.id);
+    console.log("loadTeam() for member", this.member.id);
+    
     this.dataService.getTeamByMemberId(this.member.id)
     .then( (team) => {
       // if there's a team, then there's no pending join requests by other teams
@@ -165,19 +191,12 @@ export class MemberDetailPage {
       if(team){
         console.log("Team found for member.id: "+this.member.id,team);     
         this.team = team;
-        this.canInvite = false;
-
+        this.canBeInvited = false;
+        console.log("Team Members: "+ this.team.members.length);
         // if team then load members
         if(this.team.members.length==1){
           if(team.teamOwnerId!=this.team.members[0]){
-            this.dataService.getMemberById(this.team.members[0])
-            .then( (teamMate: MemberModel) => {
-              console.log("teamMate",teamMate);
-              this.teamMates.push(teamMate);
-             },
-            (error) => {
-              console.log("error: "+ error);
-            });
+            console.log("Error: single member must always be owner, but is not.");
           }else{
             // owner is the only member]
             console.log("TeamOwner is the only member");
@@ -193,35 +212,37 @@ export class MemberDetailPage {
           });
         }else{
           // no members
-          console.log("No teamMates");
+          console.log("Error: no teamMates found, but a team should always have an owner.");
         }
         // load requests of type 'invite'
         // invites are initiated by the teamOwner to non-members to join the team
         this.dataService.getRequestsForTeam(this.team.id)
-        .then( (inviterequests) => {
-          var tmpInviterequests = inviterequests;
-          var removeInviteRequestsForMembers = [];
-          tmpInviterequests.forEach((req)=>{
-            if(req.requestStatus=='accepted'){
+        .then( (requests) => {
+          console.log("Requests found for Team: ", requests);
+          // @TODO create filter method to remove pending and accepted if resp accepted and confirmed
+          var tmprequests = requests;
+          var removeRequestsForMembers = [];
+          tmprequests.forEach((req)=>{
+            if(req.requestStatus=='confirmed'){
               // for an accepted request
               // remove both pending and accepted requests
-              removeInviteRequestsForMembers.push(req.member.id);             
+              removeRequestsForMembers.push(req.member.id);             
             }
           });
           // remove requests for members
-          this.inviterequests = new Array<RequestModel>();
-          tmpInviterequests.forEach( (req) => {
+          this.requests = new Array<RequestModel>();
+          tmprequests.forEach( (req) => {
             var remove = false;
-            removeInviteRequestsForMembers.forEach( (memberId) => {
+            removeRequestsForMembers.forEach( (memberId) => {
               if(req.member.id == memberId){
                 remove=true;
               }
             });
             if(!remove){
-              this.inviterequests.push(req);
+              this.requests.push(req);
             }
           });
-            
+          console.log("Requests for Team after removing confirmed requests:", this.requests);
         },
         (error) => {
           console.log("error: "+ error);
@@ -229,35 +250,30 @@ export class MemberDetailPage {
 
       }else{
         console.log("No team found for member.id: "+this.member.id);
-        // for now, allow multiple requests
-        
+        // for now, allow multiple requests      
         // check requests if there's no team
         this.dataService.getRequestsByMemberId(this.member.id)
-        .then( (jointeamrequests) => {
-          console.log("jointeamrequests for member: ",this.member, jointeamrequests);
-          this.jointeamrequests = jointeamrequests;
+        .then( (requests) => {
+          console.log("jointeamrequests for member: ",this.member, requests);
+          this.requests = requests;
           // if currentTeam already created a request
-          this.jointeamrequests.forEach((req)=>{
-
+          this.requests.forEach((req)=>{
             if( (this.request!=null) && (req.team.id == this.request.team.id) ){
               console.log("This user has already a pending request from this team");
-              this.canInvite = false;
+              this.canBeInvited = false;
             }
-
             if(req.requestStatus=='accepted'){
               // for an accepted request
               // remove both pending and accepted requests
-              for(var i=0; i<this.jointeamrequests.length; i++){
-                var req2: RequestModel = this.jointeamrequests[i];
+              for(var i=0; i<this.requests.length; i++){
+                var req2: RequestModel = this.requests[i];
                 if(req.member.id==req2.member.id){
-                  var deleted = this.jointeamrequests.splice(i, 1);
+                  var deleted = this.requests.splice(i, 1);
                   console.log("deletedRequest", deleted);
                 }
               }
             }
-
           });
-
         },
         (error) => {
           console.log("error: "+ error);
@@ -284,12 +300,33 @@ export class MemberDetailPage {
     this.navCtrl.setRoot(TeamDetailPage, { 'team' : team });  
   }
 
+  onPendingRequestSelect(request: RequestModel){
+    var navLength = this.navCtrl.length();   
+    this.navCtrl.remove(0, navLength-1); 
+    this.navCtrl.setRoot(TeamDetailPage, { 'team' : request.team });  
+  }
+
   onTeamMateSelect(teamMate){
     this.navCtrl.push(MemberDetailPage, { member: teamMate });
   }
 
   removeTeamMateClicked(teamMate){
     console.log("removeTeamMateClicked");
+  }
+
+  checkPermissions() {
+
+    // canInvite
+    if(this.isCurrentUser){
+      // you cannot invite yourself
+      console.log("member is currentUser");
+      this.canBeInvited=false;
+    }else{
+      // for now: if memberDetail.hasTeam you cannot invite, member can only join 1 team
+      // determined in this.loadTeam() method
+      // if currentUser.team is same as memberDetail.team you cannot invite
+    } 
+
   }
   
 }
