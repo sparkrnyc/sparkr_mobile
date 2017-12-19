@@ -39,16 +39,17 @@
       </ion-item>
       <ion-item> 
         <ion-row *ngFor="let m of teamMembers"
-          (click)="onMemberDetailSelect(m)"
-          [class.selected]="member === m" [(ngModel)]="teamMembers" name="teamMembers" ngDefaultControl>             
+          [class.selected]="member === m" [(ngModel)]="teamMembers" name="teamMembers" ngDefaultControl >             
               <ion-col col-11>
                   <p>{{ m.username }}</p>
               </ion-col>
-              <ion-col col-1 *ngIf="edit && !isOwner">
-                <ion-icon name="trash" (click)="removeMemberClicked()"></ion-icon>
+
+              <ion-col col-1 *ngIf="edit && isOwner && (m.id!=currentUser.id)">
+                <ion-icon name="trash" (click)="removeMemberClicked(m)"></ion-icon>
               </ion-col>
+
               <ion-col col-1 *ngIf="!edit">
-                <ion-icon name="arrow-dropright-circle"></ion-icon>
+                <ion-icon name="arrow-dropright-circle" (click)="onMemberDetailSelect(m)"></ion-icon>
               </ion-col>
         </ion-row>
       </ion-item>
@@ -62,7 +63,7 @@
         <ion-col>
           <ion-row><h3>{{ r.member.name }} ({{ r.member.role }})</h3></ion-row>
           <ion-row><p>{{ r.member.college }}, {{ r.member.degree }}</p></ion-row>
-          <ion-row *ngIf="(r.requestType=='invite' && r.requestStatus=='pending' && currentUser.id==r.member.id) || (r.requestType=='invite' && r.requestStatus=='accepted' && isOwner)">
+          <ion-row *ngIf="(r.requestType=='invite' && r.requestStatus=='pending' && currentUser.id==r.member.id) || (r.requestType=='invite' && r.requestStatus=='accepted' && isOwner) || (r.requestType=='join' && r.requestStatus=='pending' && isOwner)">
             <ion-col>
               <button ion-button color="primary" (click)="onAcceptRequestClicked(r)">Accept</button>
             </ion-col>

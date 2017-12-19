@@ -11,6 +11,8 @@ import { MemberListPage } from '../member/member-list';
 import { DataServiceProvider } from '../../providers/data/data-service';
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
+import * as _ from 'lodash';
+
 @IonicPage()
 @Component({
   selector: 'page-team-detail',
@@ -174,11 +176,8 @@ export class TeamDetailPage {
     // -(2) an accepted invite can be confirmed by owner
     // -(3) a pending join can be confirmed by owner
     // - only owner can update team
-
     // add member to team
     this.team.members.push(request.member.id);
-
-
     // 
     if(request.requestType=='join' && 
       request.requestStatus=='pending' && 
@@ -194,14 +193,12 @@ export class TeamDetailPage {
         this.loadTeamMembers();
         // 2. update request status to accepted 
         request.team = this.team;
-
         this.dataService.createRequest(request)
         .then( (newRequest) => {
           //console.log("newRequest:", newRequest);
           // 3. remove requests with status accepted
           //    or re-load requests for this team
-          this.loadOpenRequestsForTeam();
-          
+          this.loadOpenRequestsForTeam();         
         },
         (error) => {
           console.log("error: "+ error);
@@ -210,29 +207,22 @@ export class TeamDetailPage {
       (error) => {
         console.log("error: "+ error);
       });
-
-
-
     }else if(request.requestType=='invite' && 
       request.requestStatus=='pending' &&
       this.currentUser.id==request.member.id){
       // (1) a pending invite can be accepted by invited user
       console.log("(1) a pending invite can be accepted by invited user");
       request.requestStatus='accepted';
-
       this.dataService.createRequest(request)
         .then( (newRequest) => {
           //console.log("newRequest:", newRequest);
           // 3. remove requests with status accepted
           //    or re-load requests for this team
-          this.loadOpenRequestsForTeam();
-          
+          this.loadOpenRequestsForTeam();         
         },
         (error) => {
           console.log("error: "+ error);
         });
-
-
     }else if(request.requestType=='invite' && 
        request.requestStatus=='accepted' &&
        this.isOwner){
@@ -247,14 +237,12 @@ export class TeamDetailPage {
         this.loadTeamMembers();
         // update request status to accepted 
         request.team = this.team;
-
         this.dataService.createRequest(request)
         .then( (newRequest) => {
           //console.log("newRequest:", newRequest);
           // remove requests with status accepted
           //    or re-load requests for this team
-          this.loadOpenRequestsForTeam();
-          
+          this.loadOpenRequestsForTeam();         
         },
         (error) => {
           console.log("error: "+ error);
@@ -266,10 +254,36 @@ export class TeamDetailPage {
     }else{
       console.log("isOwner? "+this.isOwner+"; Request: ", request);
     }
-
-
   } 
 
+
+  removeMemberClicked(member: MemberModel) {
+    console.log("removeMemberClicked(member)");
+    this.team.members.forEach( (mid) => {
+      if(mid==member.id){
+        console.log("Removing memberId:", member);
+        _.remove(this.team.members, function(m) {
+          return m == mid;
+        });
+        console.log("1. Updating team:", this.team);
+      }
+    });
+    console.log("2. Removed member:", member);
+    console.log("Updating team:", this.team);
+
+    // add delete.confirmed request to log removal
+    // then update team
+    this.dataService.updateTeam(this.team)
+    .then( (updatedTeam) => {
+      this.team = updatedTeam;
+      console.log("Updated team:", this.team);
+      this.loadTeamMembers();
+    },
+    (error) => {
+      console.log("error: "+ error);
+    });
+
+  }
 
   onCancelRequestClicked(request: RequestModel){
     console.log("onCancelRequestClicked");
@@ -288,21 +302,25 @@ export class TeamDetailPage {
       this.dataService.getMemberById(this.team.members[0])
       .then( (m) => {
         this.teamMembers = new Array<MemberModel>();
-        this.teamMembers.push(m);
-        //console.log("teamMembers",this.teamMembers);
-        //console.log("loadTeamMembers.checkPermissions (1 member)")
-        //this.checkPermissions();
+        // do not add self
+        //if(m.id != this.currentUser.id){
+          this.teamMembers.push(m);
+        //}
       },
       (error) => {
         console.log("error: " + error);
       });     
     }else{
       console.log("More than 1 member");
+      this.teamMembers = new Array<MemberModel>();
       this.dataService.getMembersByIds(this.team.members)
       .then( (members) => {
-        this.teamMembers = members;
-        //console.log("loadTeamMembers.checkPermissions (> 1 member)")
-        //this.checkPermissions();
+        members.forEach( (m) => {
+          // do not add self
+          //if(m.id != this.currentUser.id){
+            this.teamMembers.push(m);
+          //}
+        });
       },
       (error) => {
         console.log("error: " + error);
@@ -320,8 +338,6 @@ export class TeamDetailPage {
 
       // create new temporary array with copied data
       var tmpRequests = requests.slice(0);
-
-      
       // remove pending for invite.accepted 
       // remove * for any confirmed request
       if(requests && requests.length>0){
@@ -354,13 +370,10 @@ export class TeamDetailPage {
             }
           }
         });
-
       }else{
         console.log("No requests found for team");
       }
-      console.log("1. After remove: ", this.requests);
       this.requests = tmpRequests;
-      console.log("2. After remove: ", this.requests);
       this.checkStates();
       this.checkPermissions();
 

@@ -115,7 +115,7 @@
               </ion-row>
             </div>
 
-            <div *ngIf="teamMates.length!=0">
+            <div *ngIf="teamMates!=null && teamMates.length!=0">
               <ion-row>
                 TEAM MATES
               </ion-row> 
@@ -123,9 +123,6 @@
                       (click)="onTeamMateSelect(tm)">                  
                 <ion-col col-11>
                   <p>{{ tm.username }}</p>
-                </ion-col>
-                <ion-col col-1>
-                  <ion-icon name="trash" (click)="removeTeamMateClicked(tm)"></ion-icon>
                 </ion-col>
               </ion-row>
             </div>
@@ -140,7 +137,7 @@
                     (click)="onPendingRequestSelect(r)">
               <ion-col col-11>
                 <p>{{ r.requestStatus }} {{ r.requestType }} request by {{r.member.username}}</p>
-                <p>waiting for {{ (r.requestType=="invite") ? r.member.username: ""}} {{ (r.requestType=="join") ? "teamOwner" : "" }} to accept</p>
+                <p>waiting for {{ (r.requestStatus=="accepted") ? "teamOwner": ""}}{{ (r.requestStatus=="pending" && r.requestType=='invite') ? r.member.username : "" }}{{ (r.requestStatus=="pending" && r.requestType=='join') ? "teamOwner" : "" }} to accept</p>
               </ion-col>
               <ion-col col-1>
                 <ion-icon name="arrow-dropright-circle"></ion-icon>

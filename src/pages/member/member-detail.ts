@@ -12,6 +12,8 @@ import { TeamDetailPage } from '../team/team-detail';
 import { DataServiceProvider } from '../../providers/data/data-service';
 import { AuthServiceProvider } from '../../providers/auth/auth-service';
 
+import * as _ from 'lodash';
+
 @IonicPage()
 @Component({
   selector: 'page-member-detail',
@@ -26,7 +28,7 @@ export class MemberDetailPage {
   currentUser: MemberModel = null;
   member: MemberModel = null;
   team: TeamModel = null;
-  teamMates: MemberModel[] = new Array<MemberModel>();
+  teamMates: MemberModel[] = null;
   
   edit: boolean = null;
   isCurrentUser: boolean = false;
@@ -193,6 +195,7 @@ export class MemberDetailPage {
         this.team = team;
         this.canBeInvited = false;
         console.log("Team Members: "+ this.team.members.length);
+        
         // if team then load members
         if(this.team.members.length==1){
           if(team.teamOwnerId!=this.team.members[0]){
@@ -205,8 +208,10 @@ export class MemberDetailPage {
           this.dataService.getMembersByIds(this.team.members)
           .then( (teamMates) => {
             console.log("teamMates",teamMates);
+            // remove self
+            _.remove(teamMates, this.member);
             this.teamMates = teamMates;
-           },
+          },
           (error) => {
             console.log("error: "+ error);
           });
@@ -214,34 +219,46 @@ export class MemberDetailPage {
           // no members
           console.log("Error: no teamMates found, but a team should always have an owner.");
         }
+
         // load requests of type 'invite'
-        // invites are initiated by the teamOwner to non-members to join the team
         this.dataService.getRequestsForTeam(this.team.id)
         .then( (requests) => {
           console.log("Requests found for Team: ", requests);
-          // @TODO create filter method to remove pending and accepted if resp accepted and confirmed
-          var tmprequests = requests;
-          var removeRequestsForMembers = [];
-          tmprequests.forEach((req)=>{
-            if(req.requestStatus=='confirmed'){
-              // for an accepted request
-              // remove both pending and accepted requests
-              removeRequestsForMembers.push(req.member.id);             
-            }
-          });
-          // remove requests for members
-          this.requests = new Array<RequestModel>();
-          tmprequests.forEach( (req) => {
-            var remove = false;
-            removeRequestsForMembers.forEach( (memberId) => {
-              if(req.member.id == memberId){
-                remove=true;
+
+          // create new temporary array with copied data
+          let tmpRequests = requests.slice(0);
+          // remove pending for invite.accepted 
+          // remove * for any confirmed request
+          if(requests && requests.length>0){
+            requests.forEach( (req1)=>{
+              if((req1.requestStatus=='confirmed')) {
+                // remove all requests for this request
+                for(let i1=0; i1<tmpRequests.length; i1++){
+                  let tmpRequest: RequestModel = tmpRequests[i1];
+                  if(req1.member.id==tmpRequest.member.id){
+                    // removes item from array
+                    tmpRequests.splice(i1, 1);
+                    i1-=1;
+                  }
+                }
+              }else if(req1.requestType=='invite' && req1.requestStatus=='accepted'){
+                // remove pending for this request
+                for(let i1=0; i1<tmpRequests.length; i1++){
+                  let tmpRequest: RequestModel = tmpRequests[i1];
+                  if(req1.member.id==tmpRequest.member.id && 
+                     tmpRequest.requestStatus=='pending'){
+                    // removes item from array
+                    tmpRequests.splice(i1, 1);
+                    i1-=1;
+                  }
+                }
               }
             });
-            if(!remove){
-              this.requests.push(req);
-            }
-          });
+          }else{
+            console.log("No requests found for team");
+          }
+          this.requests = tmpRequests;
+
           console.log("Requests for Team after removing confirmed requests:", this.requests);
         },
         (error) => {
@@ -254,26 +271,45 @@ export class MemberDetailPage {
         // check requests if there's no team
         this.dataService.getRequestsByMemberId(this.member.id)
         .then( (requests) => {
-          console.log("jointeamrequests for member: ",this.member, requests);
-          this.requests = requests;
-          // if currentTeam already created a request
-          this.requests.forEach((req)=>{
-            if( (this.request!=null) && (req.team.id == this.request.team.id) ){
-              console.log("This user has already a pending request from this team");
-              this.canBeInvited = false;
-            }
-            if(req.requestStatus=='accepted'){
-              // for an accepted request
-              // remove both pending and accepted requests
-              for(var i=0; i<this.requests.length; i++){
-                var req2: RequestModel = this.requests[i];
-                if(req.member.id==req2.member.id){
-                  var deleted = this.requests.splice(i, 1);
-                  console.log("deletedRequest", deleted);
+          console.log("Requests found for member: ",this.member, requests);
+          // create new temporary array with copied data
+          let tmpRequests = requests.slice(0);
+          // remove pending for invite.accepted 
+          // remove * for any confirmed request
+          var userHasAcceptedInvite = false;
+          if(requests && requests.length>0){
+            requests.forEach( (req1)=>{
+              if((req1.requestStatus=='confirmed')) {
+                // remove all requests for this request
+                for(let i1=0; i1<tmpRequests.length; i1++){
+                  let tmpRequest: RequestModel = tmpRequests[i1];
+                  if(req1.member.id==tmpRequest.member.id){
+                    // removes item from array
+                    tmpRequests.splice(i1, 1);
+                    i1-=1;
+                  }
+                }
+              }else if(req1.requestType=='invite' && req1.requestStatus=='accepted'){
+                // remove pending for this request
+                userHasAcceptedInvite = true;
+                for(let i1=0; i1<tmpRequests.length; i1++){
+                  let tmpRequest: RequestModel = tmpRequests[i1];
+                  if(req1.member.id==tmpRequest.member.id && 
+                     tmpRequest.requestStatus=='pending'){
+                    // removes item from array
+                    tmpRequests.splice(i1, 1);
+                    i1-=1;
+                  }
                 }
               }
-            }
-          });
+            });
+          }else{
+            console.log("No requests found for member");
+          }
+          if(userHasAcceptedInvite){
+            this.canAddTeam = false;
+          }
+          this.requests = tmpRequests;
         },
         (error) => {
           console.log("error: "+ error);
@@ -311,7 +347,15 @@ export class MemberDetailPage {
   }
 
   removeTeamMateClicked(teamMate){
-    console.log("removeTeamMateClicked");
+    _.remove(this.team.members, teamMate.id);
+    console.log("removeTeamMateClicked", this.team.members);
+    this.dataService.updateTeam(this.team)
+    .then( (team) => {
+      console.log("Team updated: ", team);
+    },
+    (error) => {
+      console.log("error: "+ error);
+    });
   }
 
   checkPermissions() {
