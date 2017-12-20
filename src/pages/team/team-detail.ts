@@ -93,13 +93,46 @@ export class TeamDetailPage {
   onSaveEditButtonClicked(toggle){
     if(this.edit==true){
       console.log("Team", this.team);
-      
-      if(this.team.id==null){
+
+      //if(this.team.id==null){
+      if(this.createNewTeam){
         console.log("Create Team");
         this.dataService.createTeam(this.team)
         .then( (team) => {
           this.team = team;
-          //this.viewCtrl.dismiss();
+          // cancel outstanding requests
+          // member can only create new team if they are not yet 
+          // related to another team, thus if there are requests
+          // for this member then cancel them
+          // get requests for member
+          this.dataService.getRequestsByMemberId(this.currentUser.id)
+          .then( (requests) => {
+            if(requests){
+              requests.forEach( (r) => {
+                console.log("Cancel open requests", r);
+                let newRequest = new RequestModel(
+                  null,
+                  r.member,
+                  r.team,
+                  r.requestType,
+                  "canceled",
+                  new Date()
+                );
+                this.dataService.createRequest(newRequest)
+                .then( (createdRequest) => {
+                  console.log("Canceled Request");
+                  this.loadOpenRequestsForTeam();
+                },
+                (error) => {
+                  console.log("error: "+ error);
+                });               
+              });
+            }
+          },
+          (error) => {
+            console.log("error: "+ error);
+          }); 
+
           this.goToMemberDetailPageForMemberId(this.team.teamOwnerId);
         },
         (error) => {
@@ -347,7 +380,8 @@ export class TeamDetailPage {
           if(req1.member.id==this.currentUser.id){
             this.areThereRequestsByCurrentUser = true;
           }
-          if((req1.requestStatus=='confirmed')) {
+          if((req1.requestStatus=='canceled') || 
+             (req1.requestStatus=='confirmed') ) {
             // remove all requests for this request
             for(let i1=0; i1<tmpRequests.length; i1++){
               let tmpRequest: RequestModel = tmpRequests[i1];

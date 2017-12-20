@@ -231,7 +231,10 @@ export class MemberDetailPage {
           // remove * for any confirmed request
           if(requests && requests.length>0){
             requests.forEach( (req1)=>{
-              if((req1.requestStatus=='confirmed')) {
+
+              if((req1.requestStatus=='canceled') || 
+                 (req1.requestStatus=='confirmed') ) {
+                console.log("canceled");
                 // remove all requests for this request
                 for(let i1=0; i1<tmpRequests.length; i1++){
                   let tmpRequest: RequestModel = tmpRequests[i1];
@@ -258,6 +261,7 @@ export class MemberDetailPage {
             console.log("No requests found for team");
           }
           this.requests = tmpRequests;
+          this.checkPermissions(); 
 
           console.log("Requests for Team after removing confirmed requests:", this.requests);
         },
@@ -310,6 +314,7 @@ export class MemberDetailPage {
             this.canAddTeam = false;
           }
           this.requests = tmpRequests;
+          this.checkPermissions(); 
         },
         (error) => {
           console.log("error: "+ error);
@@ -370,6 +375,14 @@ export class MemberDetailPage {
       // determined in this.loadTeam() method
       // if currentUser.team is same as memberDetail.team you cannot invite
     } 
+
+    if(this.requests){
+      this.requests.forEach( (r) => {
+        if(r.requestType=='invite' && r.member.id==this.member.id){
+          this.canBeInvited = false;
+        }
+      });
+    }
 
   }
   

@@ -66,12 +66,15 @@ export class LoginPage {
 
 	signup() {
     console.log('process signup');
+    /**
     const signupModal = this.modalCtrl.create(SignupPage);
     signupModal.onDidDismiss(m => {
       console.log("login.signup.newmember:", m);
-			  this.showLogin = true;    
+			this.showLogin = true;    
     });
     signupModal.present();
+    */
+    this.navCtrl.push(SignupPage);
 	}
 
   syncRequests(){

@@ -61,4 +61,9 @@ export class SignupPage {
       return;
     });  
   }
+
+  cancelSignup(){
+    this.navCtrl.pop();
+  }
+
 }
