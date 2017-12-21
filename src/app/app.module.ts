@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { MyApp } from './app.component';
+import { Sparkr } from './app.component';
 
 // Tabs
 import { TabsPage } from '../pages/tabs/tabs';
@@ -39,7 +39,7 @@ const cloudSettings: CloudSettings = {
 
 @NgModule({
   declarations: [
-    MyApp,
+    Sparkr,
     TabsPage,
     LoginPage,
     SignupPage,
@@ -55,12 +55,12 @@ const cloudSettings: CloudSettings = {
   imports: [
     BrowserModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(Sparkr),
     CloudModule.forRoot(cloudSettings)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    Sparkr,
     TabsPage,
     LoginPage,
     SignupPage,

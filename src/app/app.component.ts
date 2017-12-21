@@ -12,7 +12,7 @@ import { AuthServiceProvider } from '../providers/auth/auth-service';
   templateUrl: 'app.html'
 })
 
-export class MyApp implements OnInit {
+export class Sparkr implements OnInit {
 
   rootPage:any = TabsPage;
 

@@ -1,8 +1,8 @@
 {
-    "name": "sparkr_mobile",
+    "name": "Sparkr",
     "version": "0.1.0",
-    "author": "Ionic Framework",
-    "homepage": "http://ionicframework.com/",
+    "author": "Remko de Knikker",
+    "homepage": "http://sparkr.us",
     "private": true,
     "scripts": {
         "clean": "ionic-app-scripts clean",
@@ -28,9 +28,9 @@
         "ajv": "^5.2.3",
         "angular": "^1.6.6",
         "cordova": "^7.0.1",
-        "cordova-android": "^6.4.0",
+        "cordova-android": "^6.2.3",
         "cordova-browser": "^4.1.0",
-        "cordova-ios": "^4.5.4",
+        "cordova-ios": "^4.4.0",
         "cordova-plugin-console": "^1.1.0",
         "cordova-plugin-device": "^1.1.7",
         "cordova-plugin-splashscreen": "^4.1.0",
@@ -52,7 +52,7 @@
         "ionic": "3.19.0",
         "typescript": "2.3.4"
     },
-    "description": "An Ionic project",
+    "description": "Use SPARKR to let other hackers and founders know what you are good at and to find other team members.",
     "cordova": {
         "plugins": {
             "cordova-plugin-console": {},
