@@ -2,9 +2,19 @@
 
 #Release Logs 
 
-## 0.1.0
+## v0.1.0 Alpha
 
-Date: TBD
+Date: 2017-12-21
+
+### Installation Instructions
+
+The instructions:
+
+1. on your Android mobile, open a browser and go to [https://play.google.com/apps/testing/us.sparkr.mobile](https://play.google.com/apps/testing/us.sparkr.mobile),
+2. Click the 'Become a Tester' button,
+3. Click the 'download the Sparkr TeamBuilder app on Google Play' link or the 'download it on Google Play' link,
+4. Click the 'install' button or click the button 'OPEN IN PLAY STORE APP',
+5. click Install,
 
 NOTES:
 * Homepage is ProfileDetail of currentUser matched by Ionic Cloud Auth email.
