@@ -55,12 +55,12 @@
     "description": "Use SPARKR to let other hackers and founders know what you are good at and to find other team members.",
     "cordova": {
         "plugins": {
-            "cordova-plugin-console": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "ionic-plugin-keyboard": {}
+            "ionic-plugin-keyboard": {},
+            "cordova-plugin-console": {}
         },
         "platforms": [
             "android",

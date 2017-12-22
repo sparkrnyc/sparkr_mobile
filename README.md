@@ -8,13 +8,17 @@ Date: 2017-12-21
 
 ### Installation Instructions
 
-The instructions:
+Sign up as a Tester:
 
 1. on your Android mobile, open a browser and go to [https://play.google.com/apps/testing/us.sparkr.mobile](https://play.google.com/apps/testing/us.sparkr.mobile),
 2. Click the 'Become a Tester' button,
 3. Click the 'download the Sparkr TeamBuilder app on Google Play' link or the 'download it on Google Play' link,
 4. Click the 'install' button or click the button 'OPEN IN PLAY STORE APP',
 5. click Install,
+6. Open Sparkr on your mobile,
+7. Click Signup,
+8. Login,
+9. Add issues to the Github Project [https://github.com/sparkrnyc/sparkr_mobile/issues](https://github.com/sparkrnyc/sparkr_mobile/issues).
 
 NOTES:
 * Homepage is ProfileDetail of currentUser matched by Ionic Cloud Auth email.
@@ -118,3 +122,12 @@ A problem occurred configuring root project 'android'.
 ```
 
 Make sure that your Android emulator in Android Studio and the AVD Manager is supported by API 25. Ionic at the moment does not yet support API 26.
+
+# Creating a Release for Android
+
+```bash
+$ ionic cordova build android release
+$ keytool -genkey -v -keystore sparkr_release_key.keystore -alias sparkr_release -keyalg RSA -keysize 2048 -validity 10000
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore sparkr_release_key.keystore platforms/android/build/outputs/apk/android-release-unsigned.apk sparkr_release
+$ ~/Library/Android/sdk/build-tools/27.0.2/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk sparkr_teambuilder.apk
+```
