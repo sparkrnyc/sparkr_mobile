@@ -4,6 +4,12 @@
     <img src="assets/imgs/sparkr_logo_572x290.png" class="full-image">
   </div>
 
+  <div *ngIf="loginErrors" text-center margin text-uppercase style="color: red;">
+    <ion-col>
+      {{ loginErrors }}
+    </ion-col>
+  </div>
+
   <div *ngIf="showLogin">
     <ion-item>
       <ion-input type="username" placeholder="Username" [(ngModel)]="username"></ion-input>

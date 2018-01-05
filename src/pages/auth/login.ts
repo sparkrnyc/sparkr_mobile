@@ -15,9 +15,10 @@ import { LoginDetailsModel } from '../../components/login-details-model';
 
 export class LoginPage {
 
-  showLogin:boolean = true;
-  password:string = '';
-  username:string = '';
+  showLogin: boolean = true;
+  password: string = '';
+  username: string = '';
+  loginErrors: string = '';
 
   constructor(public navCtrl: NavController,
               public authService: AuthServiceProvider,
@@ -59,7 +60,14 @@ export class LoginPage {
         
       }
     }, (err) => {
-      console.log("Login error:", err);
+      //console.log("Login error:", err);
+      let e1 = err.error.error;
+      let e2 = JSON.parse(e1);
+      let errorMessage = ""+e2.error.message;
+      let errorStatusCode = ""+e2.error.statusCode;
+      let errorName = ""+e2.error.name;
+      this.loginErrors = errorName + ": " + errorStatusCode + " " + errorMessage;
+      console.log("Login error:", this.loginErrors );
       loader.dismissAll();
     });
 	}
