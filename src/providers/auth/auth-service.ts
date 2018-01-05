@@ -85,13 +85,14 @@ export class AuthServiceProvider {
   }
 
   signup(member: MemberModel): Promise<MemberModel> {   
-    return new Promise(resolve => {
+    return new Promise( (resolve, reject) => {
       this.dataService.createMember(member)
       .then((loggedInUser: MemberModel) => {
         console.log("signed up, loggedInUser:", this.loggedInUser);
         resolve(loggedInUser);
       }, (err) => {
-        console.log("Signup error:", err);
+        console.log("Authservice.signup error:", err);
+        reject(err);
       });
     });
   }

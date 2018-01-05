@@ -17,8 +17,8 @@ export class DataServiceProvider {
    */
   private APIKEY = '05359034-9545-4dc9-975c-77cd87097aab';
 
-  public API_BASE_URL = 'https://sparkrapi.mybluemix.net/api';
-  public API_BASE_URL1 = 'http://localhost:3000/api';
+  public API_BASE_URL1 = 'https://sparkrapi.mybluemix.net/api';
+  public API_BASE_URL = 'http://localhost:3000/api';
   public API_MEMBER: string = this.API_BASE_URL+'/Members';
   public API_MEMBER_LOGIN: string = this.API_BASE_URL+'/Members/login';
   public API_TEAM: string = this.API_BASE_URL+'/Teams';
@@ -224,7 +224,9 @@ export class DataServiceProvider {
    */
 
   public createMember(member: MemberModel): Promise<MemberModel> {
-    return new Promise(resolve => {
+    
+    return new Promise((resolve,reject) => { 
+
       var role = member.role.toLowerCase();
       console.log("role:",role);
       var body = JSON.stringify({
@@ -271,9 +273,9 @@ export class DataServiceProvider {
         resolve(member);
 
       }, err => {
-        console.log(err);
+        console.log("CreateMember error:", err);
+        reject(err);
       });
-      console.log("6. ");
     });
   }
 

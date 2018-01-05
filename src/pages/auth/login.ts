@@ -60,14 +60,14 @@ export class LoginPage {
         
       }
     }, (err) => {
-      //console.log("Login error:", err);
+      console.log("Login error:", err);
       let e1 = err.error.error;
       let e2 = JSON.parse(e1);
       let errorMessage = ""+e2.error.message;
       let errorStatusCode = ""+e2.error.statusCode;
       let errorName = ""+e2.error.name;
       this.loginErrors = errorName + ": " + errorStatusCode + " " + errorMessage;
-      console.log("Login error:", this.loginErrors );
+      console.log("Error message:", this.loginErrors );
       loader.dismissAll();
     });
 	}

@@ -8,6 +8,12 @@
 
   <h2>Signup</h2>
 
+  <div *ngIf="signupErrors" text-center margin text-uppercase style="color: red;">
+    <ion-col>
+      {{ signupErrors }}
+    </ion-col>
+  </div>
+
   <div>
 
     <ion-item>

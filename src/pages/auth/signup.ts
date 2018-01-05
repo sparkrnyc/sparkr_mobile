@@ -13,6 +13,7 @@ export class SignupPage {
   showLogin:boolean = true;
   member: MemberModel = null;
   password: string = null;
+  signupErrors: string = '';
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
@@ -58,7 +59,14 @@ export class SignupPage {
       }
     }, (err) => {
       console.log("Signup error:", err);
-      return;
+      let e1 = err.error;
+      let e2 = JSON.parse(e1);
+      let errorMessage = ""+e2.error.message;
+      let errorStatusCode = ""+e2.error.statusCode;
+      let errorName = ""+e2.error.name;
+      this.signupErrors = errorName + ": " + errorStatusCode + " " + errorMessage;
+      console.log("Error message:", this.signupErrors );  
+      loader.dismissAll();
     });  
   }
 
