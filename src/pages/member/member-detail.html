@@ -10,7 +10,7 @@
 </ion-header>
 
 <ion-content padding>
-  <h2>MemberDetail</h2>
+  <h2>Profile</h2>
   <!--
   <member-detail-form [team]="teamForMember" [member]="selectedMember"></member-detail-form> 
   -->
@@ -37,26 +37,26 @@
               </ion-row>
               -->
               <ion-row>
-                <ion-label for="name" stacked>Username</ion-label>  
-                <ion-input type="text" name="username" [(ngModel)]="member.username" [disabled]="true"></ion-input>
+                <!--ion-label for="name" stacked>Username</ion-label-->  
+                <ion-input type="text" name="username" [(ngModel)]="member.username" [disabled]="true" class="section-header"></ion-input>
               </ion-row>
 
               <!-- TODO Note: for some reason, when placing Role below other editable fields, makes role popup 
                 whenever you click any other editable input field -->
               <ion-row>
-                <ion-label>Role</ion-label>
+                <ion-label>Role:</ion-label>
                 <!--<ion-input *ngIf="!edit" type="text" name="role" [(ngModel)]="member.role" [disabled]="true"></ion-input>-->
-                <ion-select placeholder="Select..." [(ngModel)]="member.role" name="role" [disabled]="!edit">
-                  <ion-option *ngFor="let roleOption of roleOptions" [value]="roleOption" [selected]="roleOption==member.role">{{roleOption}}</ion-option>
+                <ion-select text-left placeholder="Select..." [(ngModel)]="member.role" name="role" [disabled]="!edit">
+                  <ion-option text-left text-uppercase *ngFor="let roleOption of roleOptions" [value]="roleOption" [selected]="roleOption==member.role">{{roleOption}}</ion-option>
                 </ion-select>
               </ion-row>
 
               <ion-row>
-                <ion-label for="name" stacked>Name</ion-label>  
+                <ion-label for="name" stacked>Name:</ion-label>  
                 <ion-input type="text" name="name" [(ngModel)]="member.name" [disabled]="!edit"></ion-input>
               </ion-row>
               <ion-row>
-                <ion-label for="college" stacked>College</ion-label>  
+                <ion-label for="college" stacked>College:</ion-label>  
                 <ion-input type="text" name="college" [(ngModel)]="member.college" [disabled]="!edit"></ion-input>
               </ion-row>
             </ion-col>

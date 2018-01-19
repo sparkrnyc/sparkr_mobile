@@ -1,3 +1,24 @@
 page-member-detail {
 
+	.section-header, .section-header .text-input[disabled] {
+		color: #000000; 
+		font-size: 20px; 
+		font-weight: bold;
+		opacity: 1.0;
+	}
+
+	ion-label {
+		flex: 0 0 auto;
+		padding-right: 10px;
+	}
+	
+	.select-md {
+		padding: 0px;
+	}
+
+	.select-md .select-icon {
+		height: auto;
+	}
+
 }
+
